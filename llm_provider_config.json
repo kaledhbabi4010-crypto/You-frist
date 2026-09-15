@@ -1,0 +1,13 @@
+{
+  "schema": "khaled-llm-provider-v1",
+  "provider": "openrouter",
+  "model": "openrouter/qwen/qwen3-235b-a22b-thinking-2507",
+  "api_key_environment": "OPENROUTER_API_KEY",
+  "api_key_embedded": false,
+  "live_call_verified": false,
+  "truth_policy": {
+    "provider_required": true,
+    "no_fake_success": true,
+    "live_success_requires_real_call": true
+  }
+}
