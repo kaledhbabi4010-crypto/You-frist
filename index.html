@@ -3,193 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KHALED AI — منصة ذكاء اصطناعي عربية مجانية</title>
-<meta name="description" content="KHALED AI — مساعد ذكي عربي، مولد صور، بايثون في المتصفح، وبحث ذكي — مجاني بالكامل بدون تسجيل.">
+<title>KHALED AI — منصة عربية ذكية مجانية بالكامل</title>
+<meta name="description" content="KHALED AI: مساعد ذكي، مولد صور، بايثون في المتصفح، مترجم، بحث بالمراجع، أوقات صلاة، طقس، عملات رقمية، وأدوات يومية — 17 أداة مجانية بدون تسجيل.">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
-<style>
-:root{--card-border:rgba(255,255,255,0.12);--accent-blue:#38bdf8;--accent-emerald:#10b981;--accent-purple:#c084fc;--accent-rose:#f43f5e;--accent-amber:#f59e0b;--text-main:#f8fafc;--text-muted:#cbd5e1;--panel:rgba(30,41,59,0.85)}
-*{box-sizing:border-box}
-body{background:radial-gradient(circle at top right,#1e1b4b 0%,#090d16 60%,#030712 100%);background-attachment:fixed;color:var(--text-main);font-family:'Cairo',sans-serif;min-height:100vh;margin:0;overflow-x:hidden}
-.top-header{background:rgba(15,23,42,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--card-border);padding:0.6rem 1rem;position:sticky;top:0;z-index:1050}
-.header-inner{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;flex-wrap:wrap;max-width:1500px;margin:0 auto}
-.brand-box{display:flex;align-items:center;gap:0.65rem}
-.brand-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;box-shadow:0 4px 14px rgba(124,58,237,0.4)}
-.brand-name{font-weight:800;font-size:1.05rem;margin:0;letter-spacing:0.5px}
-.brand-sub{font-size:0.68rem;color:var(--text-muted);margin:0}
-.tab-bar{display:flex;gap:0.4rem;overflow-x:auto;scrollbar-width:none;padding:2px 0}
-.tab-bar::-webkit-scrollbar{display:none}
-.tab-btn{background:rgba(255,255,255,0.05);color:var(--text-muted);border:1px solid var(--card-border);border-radius:12px;padding:0.4rem 0.85rem;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'Cairo',sans-serif}
-.tab-btn:hover{color:var(--accent-blue);border-color:var(--accent-blue)}
-.tab-btn.active{color:#fff;background:linear-gradient(135deg,#0284c7,#2563eb);border-color:transparent;box-shadow:0 4px 12px rgba(2,132,199,0.4)}
-.conn-indicator{display:inline-flex;align-items:center;gap:0.45rem;font-size:0.78rem;font-weight:600;padding:0.3rem 0.75rem;border-radius:20px;border:1px solid;white-space:nowrap}
-.conn-ok{color:var(--accent-emerald);border-color:rgba(16,185,129,0.4);background:rgba(16,185,129,0.1)}
-.conn-bad{color:var(--accent-rose);border-color:rgba(244,63,94,0.4);background:rgba(244,63,94,0.1)}
-.conn-checking{color:var(--accent-amber);border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.1)}
-.pulse-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
-.conn-ok .pulse-dot{animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
-.app-shell{display:flex;height:calc(100vh - 132px);max-width:1500px;margin:0 auto;min-height:480px}
-@media(min-width:769px){.app-shell{height:calc(100vh - 72px)}}
-.chat-sidebar{width:260px;background:rgba(15,23,42,0.95);border-left:1px solid var(--card-border);display:flex;flex-direction:column;flex-shrink:0;transition:margin .3s ease}
-.chat-sidebar.hidden{margin-right:-260px}
-.sidebar-header{padding:0.9rem;border-bottom:1px solid var(--card-border)}
-.btn-new-chat{width:100%;background:linear-gradient(135deg,#0284c7,#2563eb);color:#fff;border:none;border-radius:10px;padding:0.55rem;font-weight:700;font-size:0.85rem;transition:all .2s;font-family:'Cairo',sans-serif}
-.btn-new-chat:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,0.4)}
-.sessions-list{flex:1;overflow-y:auto;padding:0.6rem}
-.session-item{padding:0.6rem 0.8rem;border-radius:10px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;font-size:0.82rem;margin-bottom:0.3rem;border:1px solid transparent;transition:all .2s}
-.session-item:hover{background:rgba(255,255,255,0.07);color:#fff}
-.session-item.active{background:rgba(56,189,248,0.15);color:var(--accent-blue);border-color:rgba(56,189,248,0.35)}
-.session-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
-.session-del{background:none;border:none;color:rgba(244,63,94,0.6);font-size:0.72rem;padding:2px 5px;border-radius:4px;opacity:0;transition:all .2s}
-.session-item:hover .session-del{opacity:1}
-.session-del:hover{color:var(--accent-rose);background:rgba(244,63,94,0.15)}
-.sidebar-footer{padding:0.7rem 0.9rem;border-top:1px solid var(--card-border);font-size:0.68rem;color:var(--text-muted);text-align:center}
-.chat-main{flex:1;display:flex;flex-direction:column;min-width:0}
-.tab-section{display:none;flex:1;flex-direction:column;min-height:0}
-.tab-section.active{display:flex}
-.chat-messages{flex:1;padding:1.3rem;overflow-y:auto;display:flex;flex-direction:column;gap:1.2rem;scrollbar-width:thin}
-.chat-messages::-webkit-scrollbar{width:6px}
-.chat-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
-.msg-row{display:flex;gap:0.75rem;animation:fadeIn .3s ease;max-width:92%}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.msg-row.user{align-self:flex-start}
-.msg-row.assistant{align-self:flex-start;width:92%}
-.avatar-box{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;margin-top:2px}
-.avatar-user{background:linear-gradient(135deg,#0284c7,#2563eb);color:#fff}
-.avatar-ai{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff}
-.msg-body{display:flex;flex-direction:column;gap:0.3rem;min-width:0;flex:1}
-.msg-sender{font-size:0.72rem;font-weight:700;color:var(--text-muted)}
-.msg-bubble{padding:0.9rem 1.1rem;border-radius:14px;font-size:0.9rem;line-height:1.75;word-break:break-word;overflow-wrap:break-word}
-.user .msg-bubble{background:linear-gradient(135deg,#0369a1 0%,#1e40af 100%);color:#fff;border-top-right-radius:4px}
-.assistant .msg-bubble{background:rgba(30,41,59,0.9);border:1px solid var(--card-border);border-top-left-radius:4px}
-.msg-bubble p{margin:0 0 0.5rem}.msg-bubble p:last-child{margin-bottom:0}
-.msg-bubble ul,.msg-bubble ol{padding-right:1.2rem;margin:0.4rem 0}
-.msg-bubble a{color:var(--accent-blue);text-decoration:none}
-.msg-bubble table{border-collapse:collapse;width:100%;margin:0.6rem 0;font-size:0.84rem}
-.msg-bubble th,.msg-bubble td{border:1px solid rgba(255,255,255,0.15);padding:0.4rem 0.65rem;text-align:right}
-.msg-bubble th{background:rgba(255,255,255,0.07)}
-.msg-bubble blockquote{border-right:3px solid var(--accent-blue);padding-right:0.9rem;margin:0.5rem 0;color:var(--text-muted)}
-pre{background:#0d1117 !important;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:1rem;margin:0.6rem 0;overflow-x:auto;position:relative;direction:ltr;text-align:left}
-pre code{font-family:'Fira Code',Consolas,monospace;font-size:0.84rem}
-.code-copy-btn{position:absolute;top:8px;left:8px;background:rgba(255,255,255,0.1);border:none;color:#cbd5e1;font-size:0.7rem;padding:3px 10px;border-radius:6px;cursor:pointer;opacity:0;transition:opacity .2s;font-family:'Cairo',sans-serif}
-pre:hover .code-copy-btn{opacity:1}
-.typing-cursor{display:inline-block;width:8px;height:1.1em;background:var(--accent-blue);border-radius:2px;animation:blink 1s infinite;margin-right:2px;vertical-align:text-bottom}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.msg-tools{display:flex;gap:0.3rem;margin-top:0.25rem}
-.tool-chip{background:none;border:none;color:rgba(203,213,225,0.55);font-size:0.75rem;padding:0.15rem 0.5rem;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'Cairo',sans-serif}
-.tool-chip:hover{background:rgba(255,255,255,0.08);color:#fff}
-.chat-input-zone{padding:0.9rem 1.3rem 1.1rem;border-top:1px solid var(--card-border);background:rgba(15,23,42,0.7)}
-.quick-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:0.7rem}
-.quick-chip{background:rgba(255,255,255,0.06);border:1px solid var(--card-border);color:var(--text-muted);border-radius:20px;padding:0.28rem 0.8rem;font-size:0.76rem;cursor:pointer;transition:all .2s;font-family:'Cairo',sans-serif}
-.quick-chip:hover{background:rgba(56,189,248,0.15);color:var(--accent-blue);border-color:var(--accent-blue)}
-.input-row{display:flex;gap:0.6rem;background:rgba(30,41,59,0.9);border:1px solid var(--card-border);border-radius:14px;padding:0.5rem;align-items:flex-end}
-.input-row:focus-within{border-color:var(--accent-blue);box-shadow:0 0 0 3px rgba(56,189,248,0.15)}
-#userInput{flex:1;background:transparent;border:none;outline:none;color:var(--text-main);font-family:'Cairo',sans-serif;font-size:0.9rem;resize:none;max-height:140px;padding:0.5rem 0.4rem;line-height:1.6}
-#userInput::placeholder{color:rgba(203,213,225,0.4)}
-.icon-btn{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;border:none;font-size:0.95rem;flex-shrink:0;transition:all .2s}
-.btn-send{background:linear-gradient(135deg,#0284c7,#2563eb);color:#fff}
-.btn-send:disabled{opacity:0.45}
-.btn-send:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,0.5)}
-.btn-stop{background:rgba(244,63,94,0.15);border:1px solid rgba(244,63,94,0.5);color:var(--accent-rose)}
-.btn-mic{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:var(--accent-emerald)}
-.btn-mic.recording{animation:micPulse 1.2s infinite;background:rgba(244,63,94,0.2);color:var(--accent-rose);border-color:var(--accent-rose)}
-@keyframes micPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.input-meta{display:flex;justify-content:space-between;align-items:center;margin-top:0.45rem;font-size:0.7rem;color:rgba(203,213,225,0.55)}
-.welcome-hero{align-self:center;text-align:center;max-width:620px;margin:auto 0;padding:1.5rem 1rem}
-.hero-icon{width:78px;height:78px;margin:0 auto 1.2rem;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;box-shadow:0 12px 40px rgba(124,58,237,0.45)}
-.welcome-hero h2{font-weight:800;font-size:1.4rem;margin-bottom:0.5rem}
-.welcome-hero p{color:var(--text-muted);font-size:0.9rem;line-height:1.8;margin-bottom:1.3rem}
-.welcome-suggestions{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem}
-.suggestion-card{background:rgba(30,41,59,0.7);border:1px solid var(--card-border);border-radius:12px;padding:0.8rem 0.9rem;text-align:right;cursor:pointer;transition:all .2s}
-.suggestion-card:hover{border-color:var(--accent-blue);background:rgba(56,189,248,0.08);transform:translateY(-2px)}
-.s-title{font-weight:700;font-size:0.82rem;margin-bottom:0.2rem}
-.s-desc{font-size:0.73rem;color:var(--text-muted);line-height:1.5}
-.error-box{background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.35);border-radius:10px;padding:0.7rem 1rem;font-size:0.84rem;color:#fda4af}
-.retry-link{color:var(--accent-blue);cursor:pointer;text-decoration:underline}
-.btn-sidebar-toggle{background:rgba(255,255,255,0.07);border:1px solid var(--card-border);color:var(--text-muted);border-radius:8px;padding:0.3rem 0.55rem;font-size:0.85rem;cursor:pointer}
-.tool-section{flex:1;overflow-y:auto;padding:1.4rem;scrollbar-width:thin}
-.tool-section::-webkit-scrollbar{width:6px}
-.tool-section::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
-.tool-wrap{max-width:860px;margin:0 auto}
-.tool-head{margin-bottom:1.2rem}
-.tool-head h2{font-weight:800;font-size:1.25rem;margin-bottom:0.3rem}
-.tool-head p{color:var(--text-muted);font-size:0.85rem;margin:0}
-.tool-card{background:var(--panel);border:1px solid var(--card-border);border-radius:16px;padding:1.2rem;margin-bottom:1rem;backdrop-filter:blur(16px)}
-.tool-input-row{display:flex;gap:0.6rem}
-.tool-input{flex:1;background:rgba(15,23,42,0.8);border:1px solid var(--card-border);border-radius:12px;color:var(--text-main);font-family:'Cairo',sans-serif;font-size:0.9rem;padding:0.7rem 0.9rem;outline:none;transition:all .2s}
-.tool-input:focus{border-color:var(--accent-blue);box-shadow:0 0 0 3px rgba(56,189,248,0.12)}
-.tool-btn{background:linear-gradient(135deg,#0284c7,#2563eb);color:#fff;border:none;border-radius:12px;padding:0.7rem 1.3rem;font-weight:700;font-size:0.88rem;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'Cairo',sans-serif}
-.tool-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,0.4)}
-.tool-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.preset-row{display:flex;gap:0.45rem;margin-top:0.7rem;flex-wrap:wrap}
-.preset-chip{background:rgba(255,255,255,0.06);border:1px solid var(--card-border);color:var(--text-muted);border-radius:8px;padding:0.3rem 0.7rem;font-size:0.75rem;cursor:pointer;transition:all .2s;font-family:'Cairo',sans-serif}
-.preset-chip.active{background:rgba(56,189,248,0.15);color:var(--accent-blue);border-color:var(--accent-blue)}
-.result-area{min-height:120px;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,0.15);border-radius:12px;padding:1rem;text-align:center}
-.result-area.has-img{border:none;padding:0}
-.result-area img{max-width:100%;border-radius:12px;display:block}
-.spinner{display:inline-block;width:28px;height:28px;border:3px solid rgba(56,189,248,0.2);border-top-color:var(--accent-blue);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:0.6rem}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{color:var(--text-muted);font-size:0.85rem}
-.img-actions{display:flex;gap:0.5rem;margin-top:0.8rem;justify-content:center;flex-wrap:wrap}
-.img-action-btn{background:rgba(255,255,255,0.07);border:1px solid var(--card-border);color:var(--text-muted);border-radius:10px;padding:0.45rem 0.9rem;font-size:0.8rem;cursor:pointer;transition:all .2s;font-family:'Cairo',sans-serif}
-.img-action-btn:hover{color:#fff;background:rgba(56,189,248,0.15);border-color:var(--accent-blue)}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.6rem;margin-top:0.8rem}
-.gallery-item{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;aspect-ratio:1;border:1px solid var(--card-border)}
-.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .2s}
-.gallery-item:hover img{transform:scale(1.05)}
-.gallery-item .g-label{position:absolute;bottom:0;right:0;left:0;background:rgba(9,13,22,0.85);color:#cbd5e1;font-size:0.66rem;padding:0.25rem 0.5rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#pyCode{width:100%;min-height:220px;background:#0d1117;border:1px solid rgba(255,255,255,0.15);border-radius:12px;color:#e6edf3;font-family:'Fira Code',Consolas,monospace;font-size:0.85rem;padding:1rem;direction:ltr;text-align:left;outline:none;resize:vertical;line-height:1.6}
-#pyCode:focus{border-color:var(--accent-blue)}
-#pyOutput{width:100%;min-height:90px;background:#0d1117;border:1px solid rgba(255,255,255,0.15);border-radius:12px;color:#9ae6b4;font-family:'Fira Code',Consolas,monospace;font-size:0.82rem;padding:1rem;direction:ltr;text-align:left;white-space:pre-wrap;overflow:auto}
-.py-status{font-size:0.78rem;color:var(--accent-amber);margin-top:0.5rem}
-.py-status.ok{color:var(--accent-emerald)}
-.py-status.err{color:var(--accent-rose)}
-.src-card{background:rgba(15,23,42,0.8);border:1px solid var(--card-border);border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.6rem}
-.src-title{font-weight:700;font-size:0.88rem;color:var(--accent-blue);text-decoration:none;display:block;margin-bottom:0.3rem}
-.src-title:hover{text-decoration:underline}
-.src-snip{font-size:0.8rem;color:var(--text-muted);line-height:1.7}
-.src-num{display:inline-flex;width:20px;height:20px;border-radius:50%;background:rgba(16,185,129,0.15);color:var(--accent-emerald);font-size:0.7rem;align-items:center;justify-content:center;margin-left:0.4rem}
-.ai-summary{background:rgba(30,41,59,0.9);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:1rem;margin-top:1rem;font-size:0.9rem;line-height:1.8}
-.foot-note{text-align:center;font-size:0.72rem;color:rgba(203,213,225,0.5);padding:0.7rem}
-@media(max-width:768px){
-.chat-sidebar{position:fixed;top:132px;bottom:0;z-index:1100;height:auto}
-@media(min-width:769px){.chat-sidebar{top:72px}}
-.msg-row.assistant{width:100%}
-.welcome-suggestions{grid-template-columns:1fr}
-.tool-section{padding:0.9rem}
-.app-shell{height:calc(100vh - 170px)}
-}
-</style>
+<link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 <header class="top-header">
 <div class="header-inner">
-<div class="brand-box">
-<button class="btn-sidebar-toggle" id="sidebarToggle" title="المحادثات"><i class="fa-solid fa-bars"></i></button>
+<div class="brand-box" id="brandHome">
 <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
-<div><h1 class="brand-name">KHALED AI</h1><p class="brand-sub">منصة ذكاء اصطناعي عربية — مجانية 100%</p></div>
+<div><h1 class="brand-name">KHALED AI</h1><p class="brand-sub">منصة عربية ذكية — مجانية 100%</p></div>
 </div>
-<nav class="tab-bar" id="tabBar">
-<button class="tab-btn active" data-tab="chat"><i class="fa-solid fa-comments me-1"></i>المساعد الذكي</button>
-<button class="tab-btn" data-tab="images"><i class="fa-solid fa-image me-1"></i>مولد الصور</button>
-<button class="tab-btn" data-tab="python"><i class="fa-brands fa-python me-1"></i>بايثون</button>
-<button class="tab-btn" data-tab="search"><i class="fa-solid fa-magnifying-glass me-1"></i>البحث الذكي</button>
-</nav>
+<div class="header-actions">
+<button class="btn-home" id="homeBtn"><i class="fa-solid fa-house me-1"></i>الرئيسية</button>
 <div id="connIndicator" class="conn-indicator conn-checking"><span class="pulse-dot"></span><span id="connText">تحقق…</span></div>
 </div>
+</div>
 </header>
-<div class="app-shell">
+
+<!-- ============ HOME ============ -->
+<section class="app-view active" id="view-home">
+<div class="home-hero">
+<div class="hero-icon"><i class="fa-solid fa-bolt"></i></div>
+<h1>KHALED AI</h1>
+<p>منصة عربية ذكية متكاملة — 17 أداة خارقة تعمل كلها مباشرة من متصفحك:<br>ذكاء اصطناعي، توليد صور، برمجة، بحث بالمراجع، وأدوات يومية.</p>
+<div class="free-badge">✓ مجاني 100% • بدون تسجيل • بدون مفاتيح • بدون خوادم</div>
+</div>
+<div class="cat-title">🤖 الذكاء الاصطناعي<span class="cat-line"></span></div>
+<div class="tools-grid">
+<div class="tool-card" data-view="chat" style="--tc:#38bdf8"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-comments"></i></div><div class="tc-title">المساعد الذكي</div><div class="tc-desc">محادثة عربية مع بث مباشر، ذاكرة محادثات، وإدخال صوتي وقراءة صوتية.</div></div>
+<div class="tool-card" data-view="images" style="--tc:#c084fc"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-image"></i></div><div class="tc-title">مولد الصور</div><div class="tc-desc">اكتب وصفًا واحصل على صورة حقيقية بمحرك Flux — مع معرض وتحميل.</div></div>
+<div class="tool-card" data-view="translate" style="--tc:#22d3ee"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-language"></i></div><div class="tc-title">المترجم الذكي</div><div class="tc-desc">ترجمة بين 12 لغة مع كشف تلقائي للغة المصدر.</div></div>
+<div class="tool-card" data-view="summarizer" style="--tc:#f59e0b"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-compress"></i></div><div class="tc-title">ملخص النصوص</div><div class="tc-desc">الصق أي نص طويل واحصل على ملخص منظم بنقاط أو فقرة.</div></div>
+</div>
+<div class="cat-title">💻 البرمجة والتطوير<span class="cat-line"></span></div>
+<div class="tools-grid">
+<div class="tool-card" data-view="python" style="--tc:#10b981"><div class="tc-icon"><i class="fa-brands fa-python"></i></div><div class="tc-title">بايثون في المتصفح</div><div class="tc-desc">بيئة Python حقيقية مع numpy وpandas — بدون تثبيت وبدون خادم.</div></div>
+<div class="tool-card" data-view="playground" style="--tc:#38bdf8"><div class="tc-icon"><i class="fa-solid fa-code"></i></div><div class="tc-title">منصة الأكواد</div><div class="tc-desc">اكتب HTML وCSS وJavaScript وشاهد النتيجة فورًا بمعاينة حية.</div></div>
+<div class="tool-card" data-view="regex" style="--tc:#f43f5e"><div class="tc-icon"><i class="fa-solid fa-bolt-lightning"></i></div><div class="tc-title">مدقق Regex</div><div class="tc-desc">اختبر أنماط التعبيرات النظامية واكتشف التطابقات فورًا.</div></div>
+<div class="tool-card" data-view="json" style="--tc:#10b981"><div class="tc-icon"><i class="fa-solid fa-brackets-curly"></i></div><div class="tc-title">أداة JSON</div><div class="tc-desc">تنسيق وتصغير والتحقق من صحة JSON مع تحديد الأخطاء بدقة.</div></div>
+</div>
+<div class="cat-title">📚 المعرفة والحياة<span class="cat-line"></span></div>
+<div class="tools-grid">
+<div class="tool-card" data-view="search" style="--tc:#38bdf8"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div class="tc-title">البحث الذكي</div><div class="tc-desc">بحث حقيقي في ويكيبيديا العربية + تلخيص مع مصادر مرقمة موثقة.</div></div>
+<div class="tool-card" data-view="prayer" style="--tc:#10b981"><div class="tc-icon"><i class="fa-solid fa-mosque"></i></div><div class="tc-title">أوقات الصلاة</div><div class="tc-desc">مواقيت 15 مدينة سعودية حسب تقويم أم القرى مع التاريخ الهجري.</div></div>
+<div class="tool-card" data-view="hijri" style="--tc:#c084fc"><div class="tc-icon"><i class="fa-solid fa-moon"></i></div><div class="tc-title">التقويم الهجري</div><div class="tc-desc">حوّل أي تاريخ بين الهجري والميلادي فورًا دون إنترنت.</div></div>
+<div class="tool-card" data-view="weather" style="--tc:#f59e0b"><div class="tc-icon"><i class="fa-solid fa-cloud-sun"></i></div><div class="tc-title">الطقس</div><div class="tc-desc">حالة الطقس الآن + توقعات 4 أيام لـ12 مدينة أو لموقعك مباشرة.</div></div>
+<div class="tool-card" data-view="crypto" style="--tc:#22d3ee"><div class="tc-icon"><i class="fa-solid fa-coins"></i></div><div class="tc-title">العملات الرقمية</div><div class="tc-desc">أسعار مباشرة لـ8 عملات رقمية بالتغير اللحظي — تحديث تلقائي.</div></div>
+</div>
+<div class="cat-title">🧰 أدوات يومية<span class="cat-line"></span></div>
+<div class="tools-grid">
+<div class="tool-card" data-view="dictation" style="--tc:#10b981"><div class="tc-icon"><i class="fa-solid fa-microphone-lines"></i></div><div class="tc-title">الكتابة بالصوت</div><div class="tc-desc">تحدث بالعربية ويُكتب كل ما تقوله نصًا — انسخ متى شئت.</div></div>
+<div class="tool-card" data-view="tts" style="--tc:#c084fc"><div class="tc-icon"><i class="fa-solid fa-volume-high"></i></div><div class="tc-title">استوديو النطق</div><div class="tc-desc">حوّل أي نص عربي إلى صوت مسموع مع اختيار الصوت والسرعة.</div></div>
+<div class="tool-card" data-view="qr" style="--tc:#38bdf8"><div class="tc-icon"><i class="fa-solid fa-qrcode"></i></div><div class="tc-title">مولد QR</div><div class="tc-desc">ولّد رمز QR لأي نص أو رابط وحمّله كصورة عالية الجودة.</div></div>
+<div class="tool-card" data-view="password" style="--tc:#f43f5e"><div class="tc-icon"><i class="fa-solid fa-key"></i></div><div class="tc-title">كلمات السر</div><div class="tc-desc">كلمات سر خرافية بتشفير آمن من متصفحك مع مقياس قوة.</div></div>
+</div>
+<div class="foot-note">كل الأدوات تعمل مجانًا من متصفحك مباشرة — المحركات: Pollinations (AI والصور) • Pyodide (بايثون) • Open-Meteo (طقس) • CoinGecko (عملات) • Aladhan (مواقيت) • ويكيبيديا (بحث)<br>لا نطلب تسجيلًا ولا نخزن بياناتك على أي خادم — كل شيء يبقى في متصفحك.</div>
+</section>
+
+<!-- ============ CHAT (special layout) ============ -->
+<section class="app-view" id="view-chat">
+<div class="back-row" style="max-width:1400px;margin:0 auto;padding:0.8rem 1.2rem 0"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button><button class="btn-home" id="sidebarToggle" title="إظهار/إخفاء المحادثات"><i class="fa-solid fa-bars"></i></button></div>
+<div class="chat-layout" id="chatLayoutWrap">
 <aside class="chat-sidebar" id="chatSidebar">
 <div class="sidebar-header"><button class="btn-new-chat" id="newChatBtn"><i class="fa-solid fa-plus me-2"></i>محادثة جديدة</button></div>
 <div class="sessions-list" id="sessionsList"></div>
 <div class="sidebar-footer"><i class="fa-solid fa-circle-info me-1"></i>محادثاتك محفوظة في متصفحك فقط</div>
 </aside>
-<main class="chat-main">
-<!-- CHAT -->
-<section class="tab-section active" id="tab-chat">
+<div class="chat-main">
 <div class="chat-messages" id="chatMessages"></div>
 <div class="chat-input-zone">
 <div class="quick-chips" id="quickChips">
@@ -206,19 +91,23 @@ pre:hover .code-copy-btn{opacity:1}
 </div>
 </form>
 <div class="input-meta">
-<span><i class="fa-solid fa-shield-halved me-1"></i> محرك مجاني حقيقي — قد يتأخر عند الضغط</span>
+<span><i class="fa-solid fa-shield-halved me-1"></i> محرك مجاني حقيقي — مع إعادة محاولة تلقائية عند الانشغال</span>
 <span id="charCount">0 / 4000</span>
 </div>
 </div>
+</div>
+</div>
 </section>
-<!-- IMAGES -->
-<section class="tab-section" id="tab-images">
-<div class="tool-section"><div class="tool-wrap">
-<div class="tool-head"><h2>🎨 مولد الصور بالذكاء الاصطناعي</h2><p>اكتب وصفًا بالعربية أو الإنجليزية واحصل على صورة حقيقية — مجاني بلا حدود وبلا تسجيل.</p></div>
-<div class="tool-card">
+
+<!-- ============ IMAGES ============ -->
+<section class="app-view" id="view-images">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-image"></i>مولد الصور بالذكاء الاصطناعي</h2><p>اكتب وصفًا واحصل على صورة حقيقية بمحرك Flux — مجاني بلا تسجيل.</p></div>
+<div class="tool-card-box">
 <div class="tool-input-row">
-<input class="tool-input" id="imgPrompt" placeholder="مثال: قط فضائي يرسم لوحة، ألوان زاهية" autocomplete="off">
-<button class="tool-btn" id="imgGenBtn"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>ولّد</button>
+<input class="tool-input" id="imgPrompt" placeholder="مثال: جبل عائم فوق غيوم ذهبية عند الغروب" autocomplete="off">
+<button class="tool-btn purple" id="imgGenBtn"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>ولّد</button>
 </div>
 <div class="preset-row" id="sizePresets">
 <button class="preset-chip active" data-w="1024" data-h="1024">مربع 1024</button>
@@ -226,186 +115,327 @@ pre:hover .code-copy-btn{opacity:1}
 <button class="preset-chip" data-w="720" data-h="1280">طولي 720×1280</button>
 </div>
 </div>
-<div class="tool-card"><div class="result-area" id="imgResult"><span class="loading-text">ستظهر صورتك هنا ✨</span></div>
+<div class="tool-card-box"><div class="result-area" id="imgResult"><span class="loading-text">ستظهر صورتك هنا ✨</span></div>
 <div class="img-actions" id="imgActions" style="display:none">
-<button class="img-action-btn" id="imgDownload"><i class="fa-solid fa-download me-1"></i>تحميل</button>
-<button class="img-action-btn" id="imgVariation"><i class="fa-solid fa-dice me-1"></i>نسخة مختلفة</button>
+<button class="ghost-btn" id="imgDownload"><i class="fa-solid fa-download me-1"></i>تحميل</button>
+<button class="ghost-btn" id="imgVariation"><i class="fa-solid fa-dice me-1"></i>نسخة مختلفة</button>
 </div>
 </div>
-<div class="tool-card" id="galleryCard" style="display:none">
-<h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.6rem"><i class="fa-solid fa-images me-2"></i>معرض صورك</h3>
+<div class="tool-card-box" id="galleryCard" style="display:none">
+<h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.6rem"><i class="fa-solid fa-images me-2"></i>معرض صورك (آخر 12)</h3>
 <div class="gallery-grid" id="galleryGrid"></div>
 </div>
-<div class="foot-note">الصور تُولَّد عبر خدمة Pollinations المجانية — تعمل من متصفحك مباشرة.</div>
-</div></div>
+<div class="foot-note">توليد عبر image.pollinations.ai بمحرك Flux — مجاني.</div>
+</div>
 </section>
-<!-- PYTHON -->
-<section class="tab-section" id="tab-python">
-<div class="tool-section"><div class="tool-wrap">
-<div class="tool-head"><h2>🐍 بايثون حقيقي في متصفحك</h2><p>بيئة Python كاملة تعمل بدون أي خادم — تدعم numpy وpandas والعديد من المكتبات. أول تشغيل يحمل البيئة (مرر واحد فقط).</p></div>
-<div class="tool-card">
+
+<!-- ============ PYTHON ============ -->
+<section class="app-view" id="view-python">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-brands fa-python"></i>بايثون حقيقي في متصفحك</h2><p>بيئة Python كاملة مع numpy وpandas — أول تشغيل يحمل البيئة (مرة واحدة).</p></div>
+<div class="tool-card-box">
 <div class="preset-row" style="margin:0 0 0.7rem 0">
-<button class="preset-chip" data-py="hello">مثال: أساسيات</button>
-<button class="preset-chip" data-py="fib">متتالية فيبوناتشي</button>
+<button class="preset-chip" data-py="hello">أساسيات</button>
+<button class="preset-chip" data-py="fib">فيبوناتشي</button>
 <button class="preset-chip" data-py="numpy">numpy</button>
 <button class="preset-chip" data-py="pandas">pandas</button>
 </div>
-<textarea id="pyCode" spellcheck="false"></textarea>
+<textarea id="pyCode" class="code-area" spellcheck="false" style="min-height:220px"></textarea>
 <div style="display:flex;gap:0.6rem;margin-top:0.7rem">
-<button class="tool-btn" id="pyRunBtn"><i class="fa-solid fa-play me-1"></i>تشغيل</button>
-<button class="img-action-btn" id="pyClearBtn" style="padding:0.55rem 1rem">مسح</button>
+<button class="tool-btn green" id="pyRunBtn"><i class="fa-solid fa-play me-1"></i>تشغيل</button>
+<button class="ghost-btn" id="pyClearBtn" style="padding:0.55rem 1rem">مسح</button>
 </div>
 <div class="py-status" id="pyStatus"></div>
 </div>
-<div class="tool-card">
+<div class="tool-card-box">
 <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem"><i class="fa-solid fa-terminal me-1"></i>الناتج:</div>
-<div id="pyOutput">(اضغط "تشغيل" لرؤية النتائج هنا)</div>
+<div id="pyOutput" class="code-area">(اضغط "تشغيل" لرؤية النتائج)</div>
 </div>
-<div class="foot-note">يعمل عبر Pyodide (Python مُجمَّع لWebAssembly) — مجاني ومفتوح المصدر.</div>
-</div></div>
+</div>
 </section>
-<!-- SEARCH -->
-<section class="tab-section" id="tab-search">
-<div class="tool-section"><div class="tool-wrap">
-<div class="tool-head"><h2>📚 بحث ذكي بالمراجع</h2><p>بحث حقيقي في ويكيبيديا العربية + تلخيص ذكي مع مصادر موثقة بالأرقام.</p></div>
-<div class="tool-card">
+
+<!-- ============ PLAYGROUND ============ -->
+<section class="app-view" id="view-playground">
+<div class="tool-wrap wide">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-code"></i>منصة الأكواد الحية</h2><p>اكتب HTML وCSS وJavaScript وشاهد النتيجة فورًا — بيئة تعليمية كاملة.</p></div>
+<div class="pg-layout">
+<div class="pg-pane"><label class="f-label">HTML</label><textarea id="pgHtml" class="code-area" spellcheck="false" style="min-height:130px"></textarea></div>
+<div class="pg-pane"><label class="f-label">CSS</label><textarea id="pgCss" class="code-area" spellcheck="false" style="min-height:130px"></textarea></div>
+<div class="pg-pane"><label class="f-label">JavaScript</label><textarea id="pgJs" class="code-area" spellcheck="false" style="min-height:130px"></textarea></div>
+<div class="pg-pane"><label class="f-label">النتيجة</label><iframe id="pgPreview" sandbox="allow-scripts allow-modals"></iframe></div>
+</div>
+<button class="tool-btn" id="pgRunBtn" style="margin-top:0.9rem"><i class="fa-solid fa-play me-1"></i>تشغيل</button>
+</div>
+</section>
+
+<!-- ============ SEARCH ============ -->
+<section class="app-view" id="view-search">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-magnifying-glass"></i>البحث الذكي بالمراجع</h2><p>بحث حقيقي في ويكيبيديا العربية + تلخيص ذكي مع مصادر موثقة.</p></div>
+<div class="tool-card-box">
 <div class="tool-input-row">
-<input class="tool-input" id="searchQuery" placeholder="مثال: الثقب الأسود، تاريخ الأندلس، الذكاء الاصطناعي…" autocomplete="off">
+<input class="tool-input" id="searchQuery" placeholder="مثال: الثقب الأسود، تاريخ الأندلس…" autocomplete="off">
 <button class="tool-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass me-1"></i>ابحث</button>
 </div>
 </div>
-<div class="tool-card" id="searchResults" style="display:none">
+<div class="tool-card-box" id="searchResults" style="display:none">
 <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.6rem"><i class="fa-solid fa-book me-1"></i>النتائج من ويكيبيديا:</div>
 <div id="srcList"></div>
-<button class="tool-btn" id="summarizeBtn" style="margin-top:0.8rem"><i class="fa-solid fa-brain me-1"></i>لخص لي بالذكاء الاصطناعي</button>
+<button class="tool-btn purple" id="summarizeBtn" style="margin-top:0.8rem"><i class="fa-solid fa-brain me-1"></i>لخص لي بالذكاء الاصطناعي</button>
 <div class="ai-summary" id="aiSummary" style="display:none"></div>
 </div>
-<div class="foot-note">النتائج من ويكيبيديا (رخصة CC) — والملخص يُبنى على المصادر المعروضة فقط.</div>
-</div></div>
-</section>
-</main>
 </div>
+</section>
+
+<!-- ============ TRANSLATE ============ -->
+<section class="app-view" id="view-translate">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-language"></i>المترجم الذكي</h2><p>ترجمة بين 12 لغة مع كشف تلقائي — عربية، إنجليزية، فرنسية، صينية وغيرها.</p></div>
+<div class="tool-card-box">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.7rem">
+<div><label class="f-label">من</label><select class="tool-input" id="trFrom"></select></div>
+<div><label class="f-label">إلى</label><select class="tool-input" id="trTo"></select></div>
+</div>
+<textarea class="tool-input" id="trText" placeholder="اكتب أو الصق النص هنا…" style="min-height:110px"></textarea>
+<div class="preset-row" style="margin-top:0.7rem">
+<button class="tool-btn green" id="trGoBtn"><i class="fa-solid fa-language me-1"></i>ترجم</button>
+<button class="ghost-btn" id="trCopy" style="display:none"><i class="fa-regular fa-copy me-1"></i>نسخ النتيجة</button>
+</div>
+</div>
+<div class="result-box empty" id="trResult">ستظهر الترجمة هنا</div>
+</div>
+</section>
+
+<!-- ============ SUMMARIZER ============ -->
+<section class="app-view" id="view-summarizer">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-compress"></i>ملخص النصوص</h2><p>الصق مقالًا أو بحثًا أو مستندًا طويلًا واحصل على ملخص منظم ذكي.</p></div>
+<div class="tool-card-box">
+<label class="f-label">نمط التلخيص</label>
+<select class="tool-input" id="sumStyle" style="margin-bottom:0.7rem">
+<option value="short">قصير جدًا — 3 نقاط</option>
+<option value="medium" selected>فقرة موجزة</option>
+<option value="bullets">نقاط منظمة بعناوين</option>
+</select>
+<textarea class="tool-input" id="sumInput" placeholder="الصق النص الطويل هنا…" style="min-height:150px"></textarea>
+<div class="preset-row" style="margin-top:0.7rem">
+<button class="tool-btn amber" id="sumGoBtn"><i class="fa-solid fa-compress me-1"></i>لخص الآن</button>
+<button class="ghost-btn" id="sumCopy" style="display:none"><i class="fa-regular fa-copy me-1"></i>نسخ</button>
+</div>
+</div>
+<div class="result-box empty" id="sumResult">سيظهر الملخص هنا</div>
+</div>
+</section>
+
+<!-- ============ WEATHER ============ -->
+<section class="app-view" id="view-weather">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-cloud-sun"></i>الطقس الآن</h2><p>بيانات مباشرة من Open-Meteo — حالة الآن وتوقعات 4 أيام.</p></div>
+<div class="tool-card-box">
+<div class="tool-input-row">
+<select class="tool-input" id="citySelect"></select>
+<button class="tool-btn amber" id="weatherBtn"><i class="fa-solid fa-cloud-sun me-1"></i>اعرض</button>
+<button class="ghost-btn" id="geoBtn"><i class="fa-solid fa-location-crosshairs me-1"></i>موقعي</button>
+</div>
+</div>
+<div id="weatherResult"></div>
+</div>
+</section>
+
+<!-- ============ CRYPTO ============ -->
+<section class="app-view" id="view-crypto">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-coins"></i>العملات الرقمية المباشرة</h2><p>أسعار لحظية من CoinGecko — تحديث تلقائي كل دقيقتين.</p></div>
+<div class="tool-input-row" style="margin-bottom:0.8rem">
+<button class="tool-btn purple" id="cryptoRefresh"><i class="fa-solid fa-rotate me-1"></i>تحديث الآن</button>
+<span style="font-size:0.78rem;color:var(--text-muted);align-self:center" id="cryptoUpdated"></span>
+</div>
+<div class="crypto-grid" id="cryptoGrid"></div>
+</div>
+</section>
+
+<!-- ============ PRAYER ============ -->
+<section class="app-view" id="view-prayer">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-mosque"></i>أوقات الصلاة</h2><p>مواقيت الصلاة لـ15 مدينة حسب تقويم أم القرى مع التاريخ الهجري.</p></div>
+<div class="tool-card-box">
+<div class="tool-input-row">
+<select class="tool-input" id="prayerCity"></select>
+<button class="tool-btn green" id="prayerBtn"><i class="fa-solid fa-mosque me-1"></i>اعرض</button>
+</div>
+</div>
+<div id="prayerResult"></div>
+</div>
+</section>
+
+<!-- ============ HIJRI ============ -->
+<section class="app-view" id="view-hijri">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-moon"></i>التقويم الهجري</h2><p>تحويل فوري بين الميلادي والهجري (أم القرى) — يعمل حتى بدون إنترنت.</p></div>
+<div class="tool-card-box">
+<label class="f-label">اختر التاريخ الميلادي</label>
+<div class="tool-input-row">
+<input type="date" class="tool-input" id="hijriDateInput" style="direction:ltr">
+<button class="ghost-btn" id="hijriToday">اليوم</button>
+</div>
+</div>
+<div class="result-box" id="hijriResult"></div>
+</div>
+</section>
+
+<!-- ============ DICTATION ============ -->
+<section class="app-view" id="view-dictation">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-microphone-lines"></i>الكتابة بالصوت</h2><p>اضغط "ابدأ الاستماع" وتحدث بالعربية — يُكتب كل ما تقوله نصًا.</p></div>
+<div class="tool-card-box">
+<div class="tool-input-row">
+<button class="icon-btn btn-mic" id="dictStartBtn" style="width:auto;padding:0 1.3rem;height:auto;font-family:Cairo;font-weight:700;font-size:0.88rem"><i class="fa-solid fa-microphone me-1"></i>ابدأ الاستماع</button>
+<span class="py-status" id="dictStatus" style="align-self:center;margin-top:0"></span>
+</div>
+<textarea class="tool-input" id="dictText" placeholder="سيظهر كلامك هنا…" style="min-height:170px;margin-top:0.8rem"></textarea>
+<div class="preset-row" style="margin-top:0.7rem">
+<button class="ghost-btn" id="dictCopy"><i class="fa-regular fa-copy me-1"></i>نسخ النص</button>
+<button class="ghost-btn" id="dictClear"><i class="fa-solid fa-trash me-1"></i>مسح</button>
+</div>
+</div>
+<div class="foot-note">الإدخال الصوتي يعمل في Chrome وEdge — يتطلب إذن الميكروفون.</div>
+</div>
+</section>
+
+<!-- ============ TTS ============ -->
+<section class="app-view" id="view-tts">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-volume-high"></i>استوديو النطق</h2><p>حوّل أي نص عربي إلى صوت واضح — اختر الصوت والسرعة.</p></div>
+<div class="tool-card-box">
+<textarea class="tool-input" id="ttsText" placeholder="اكتب النص الذي تريد سماعه…" style="min-height:120px">مرحباً بك في منصة كhaled الذكية للحاسوب.</textarea>
+<label class="f-label">الصوت</label>
+<select class="tool-input" id="ttsVoice" style="margin-bottom:0.7rem"></select>
+<label class="f-label">السرعة: <span id="ttsRateVal">1×</span></label>
+<div class="range-row"><input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="1"></div>
+<div class="preset-row" style="margin-top:0.5rem">
+<button class="tool-btn purple" id="ttsPlayBtn"><i class="fa-solid fa-play me-1"></i>استمع</button>
+<button class="ghost-btn" id="ttsStopBtn"><i class="fa-solid fa-stop me-1"></i>إيقاف</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ QR ============ -->
+<section class="app-view" id="view-qr">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-qrcode"></i>مولد رموز QR</h2><p>حوّل أي نص أو رابط إلى رمز QR قابل للتحميل — يعمل بدون إنترنت.</p></div>
+<div class="tool-card-box">
+<textarea class="tool-input" id="qrText" placeholder="اكتب رابطًا أو نصًا…" style="min-height:90px">https://kaledhbabi4010-crypto.github.io/You-frist/</textarea>
+<div class="preset-row" style="margin-top:0.7rem">
+<button class="tool-btn" id="qrBtn"><i class="fa-solid fa-qrcode me-1"></i>ولّد الرمز</button>
+<button class="ghost-btn" id="qrDownload" style="display:none"><i class="fa-solid fa-download me-1"></i>تحميل PNG</button>
+</div>
+</div>
+<div id="qrBox"></div>
+</div>
+</section>
+
+<!-- ============ PASSWORD ============ -->
+<section class="app-view" id="view-password">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-key"></i>مولد كلمات السر الخرافية</h2><p>كلمات سر قوية بتوليد آمن (Web Crypto) — لا يغادر متصفحك أبدًا.</p></div>
+<div class="tool-card-box">
+<label class="f-label">الطول: <span id="pwLenVal">20</span> حرفًا</label>
+<div class="range-row"><input type="range" id="pwLength" min="8" max="40" value="20"></div>
+<div class="check-row">
+<label class="check-item"><input type="checkbox" id="pw_upper" checked> أحرف كبيرة</label>
+<label class="check-item"><input type="checkbox" id="pw_lower" checked> أحرف صغيرة</label>
+<label class="check-item"><input type="checkbox" id="pw_digits" checked> أرقام</label>
+<label class="check-item"><input type="checkbox" id="pw_symbols" checked> رموز</label>
+</div>
+<div class="preset-row" style="margin-top:0.8rem">
+<button class="tool-btn" id="pwGenBtn"><i class="fa-solid fa-dice me-1"></i>ولّد</button>
+<button class="ghost-btn" id="pwCopy"><i class="fa-regular fa-copy me-1"></i>نسخ</button>
+</div>
+<div class="pw-result" id="pwResult"></div>
+<div class="strength-bar"><div class="strength-fill" id="pwStrengthFill"></div></div>
+<div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.35rem">القوة: <strong id="pwStrengthLabel">—</strong></div>
+</div>
+</div>
+</section>
+
+<!-- ============ REGEX ============ -->
+<section class="app-view" id="view-regex">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-bolt-lightning"></i>مدقق Regex</h2><p>اختبر أنماط التعبيرات النظامية على نصك واكتشف التطابقات فورًا.</p></div>
+<div class="tool-card-box">
+<div style="display:grid;grid-template-columns:1fr 130px;gap:0.6rem">
+<div><label class="f-label">النمط</label><input class="tool-input" id="rxPattern" placeholder="مثال: \d+ فقط الأرقام" style="direction:ltr" value="\d+"></div>
+<div><label class="f-label">الأعلام</label><input class="tool-input" id="rxFlags" style="direction:ltr" value="g"></div>
+</div>
+<label class="f-label" style="margin-top:0.6rem">النص للتجربة</label>
+<textarea class="tool-input" id="rxTest" style="direction:rtl;min-height:90px">هناك 42 قطة و7 كلاب و365 يومًا في السنة.</textarea>
+<div class="preset-row" style="margin-top:0.7rem">
+<button class="tool-btn" id="rxRunBtn"><i class="fa-solid fa-play me-1"></i>اختبر</button>
+</div>
+<div class="error-box" id="rxError" style="display:none;margin-top:0.6rem"></div>
+</div>
+<div class="result-box" id="rxMatches"></div>
+</div>
+</section>
+
+<!-- ============ JSON ============ -->
+<section class="app-view" id="view-json">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-brackets-curly"></i>أداة JSON</h2><p>تنسيق وتصغير والتحقق من صحة JSON مع تحديد موقع الخطأ بدقة.</p></div>
+<div class="tool-card-box">
+<textarea class="tool-input" id="jsonInput" class="code-area" placeholder='{"name": "KHALED", "tools": 17}' style="direction:ltr;min-height:150px;font-family:'Fira Code',Consolas,monospace">{"name":"KHALED AI","free":true,"tools":17,"engines":["pollinations","pyodide","open-meteo"]}</textarea>
+<div class="preset-row" style="margin-top:0.7rem">
+<button class="tool-btn green" id="jsonFormatBtn"><i class="fa-solid fa-indent me-1"></i>تنسيق</button>
+<button class="tool-btn amber" id="jsonMinifyBtn"><i class="fa-solid fa-compress me-1"></i>تصغير</button>
+<button class="ghost-btn" id="jsonCopy"><i class="fa-regular fa-copy me-1"></i>نسخ الناتج</button>
+</div>
+<div class="error-box" id="jsonError" style="display:none;margin-top:0.6rem"></div>
+</div>
+<div class="code-area" id="jsonOutput" style="min-height:80px">(الناتج هنا)</div>
+</div>
+</section>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+<script src="js/core.js"></script>
+<script src="js/tools_ai.js"></script>
+<script src="js/tools_knowledge.js"></script>
+<script src="js/tools_util.js"></script>
 <script>
 'use strict';
-const AI_ENDPOINT='https://text.pollinations.ai/openai';
-const AI_MODEL='openai';
-const MAX_INPUT_CHARS=4000,HISTORY_LIMIT=16,MAX_RETRIES=3;
-const SYSTEM_PROMPT='أنت "KHALED AI"، مساعد ذكي عربي محترف ودقيق. قواعدك: 1) أجب بالعربية الفصحى الواضحة إلا إذا طلب المستخدم لغة أخرى أو كتب بالإنجليزية. 2) كن دقيقًا وصادقًا: إذا لم تكن متأكدًا فقل ذلك صراحة بدل التخمين. 3) استخدم Markdown عند الحاجة. 4) في الأكواد اذكر اسم اللغة واكتب كودًا صحيحًا قابلًا للتشغيل. 5) كن عمليًا ومختصرًا بدون حشو.';
 marked.setOptions({breaks:true,mangle:false,headerIds:false});
-const $=id=>document.getElementById(id);
-const chatMessagesEl=$('chatMessages'),chatForm=$('chatForm'),userInput=$('userInput'),sendBtn=$('sendBtn'),charCountEl=$('charCount'),sessionsListEl=$('sessionsList'),newChatBtn=$('newChatBtn'),sidebarToggle=$('sidebarToggle'),chatSidebar=$('chatSidebar'),connIndicator=$('connIndicator'),connText=$('connText');
-/* ---- tabs ---- */
-const tabBtns=document.querySelectorAll('.tab-btn'),tabSections=document.querySelectorAll('.tab-section');
-tabBtns.forEach(b=>b.addEventListener('click',()=>{
-tabBtns.forEach(x=>x.classList.remove('active'));b.classList.add('active');
-tabSections.forEach(s=>s.classList.toggle('active',s.id==='tab-'+b.dataset.tab));
-}));
-/* ---- chat state ---- */
-let sessions=[],activeSessionId=null,isGenerating=false,abortController=null,lastAssistantText='';
-try{sessions=JSON.parse(localStorage.getItem('khaled_sessions_v2'))||[];activeSessionId=localStorage.getItem('khaled_active_session_v2')}catch{sessions=[]}
-if(!Array.isArray(sessions))sessions=[];
-if(!sessions.length)createSession('محادثة جديدة',false);
-if(!activeSessionId||!sessions.find(s=>s.id===activeSessionId))activeSessionId=sessions[0].id;
-function persist(){try{localStorage.setItem('khaled_sessions_v2',JSON.stringify(sessions.slice(0,40)));localStorage.setItem('khaled_active_session_v2',activeSessionId)}catch{}}
-function currentSession(){return sessions.find(s=>s.id===activeSessionId)}
-function createSession(title,save=true){const s={id:'s_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),title:title||'محادثة جديدة',messages:[],created:Date.now()};sessions.unshift(s);activeSessionId=s.id;if(save){persist();renderSessions();renderMessages()}return s}
-function deleteSession(id){sessions=sessions.filter(s=>s.id!==id);if(activeSessionId===id)activeSessionId=sessions[0]?.id||null;if(!sessions.length)createSession('محادثة جديدة',false);persist();renderSessions();renderMessages()}
-function renderSessions(){sessionsListEl.innerHTML='';sessions.forEach(s=>{const div=document.createElement('div');div.className='session-item'+(s.id===activeSessionId?' active':'');div.innerHTML='<i class="fa-regular fa-message" style="font-size:0.72rem;opacity:0.6"></i><span class="session-title"></span><button class="session-del" title="حذف"><i class="fa-solid fa-xmark"></i></button>';div.querySelector('.session-title').textContent=s.title;div.addEventListener('click',e=>{if(e.target.closest('.session-del'))return;activeSessionId=s.id;persist();renderSessions();renderMessages();if(window.innerWidth<=768)chatSidebar.classList.add('hidden')});div.querySelector('.session-del').addEventListener('click',()=>deleteSession(s.id));sessionsListEl.appendChild(div)})}
-function buildWelcome(){const div=document.createElement('div');div.className='welcome-hero';div.innerHTML='<div class="hero-icon"><i class="fa-solid fa-robot"></i></div><h2>أهلاً بك في KHALED AI 👋</h2><p>منصة عربية مجانية بالكامل: مساعد ذكي، مولد صور، بايثون في المتصفح، وبحث بالمراجع. جرّب من الاقتراحات أو اكتب سؤالك.</p><div class="welcome-suggestions"><div class="suggestion-card" data-prompt="اشرح لي الفرق بين الذكاء الاصطناعي والتعلم العميق بأسلوب مبسط"><div class="s-title">🧠 اشرح لي</div><div class="s-desc">الفرق بين الذكاء الاصطناعي والتعلم العميق</div></div><div class="suggestion-card" data-prompt="اكتب لي كود بايثون يحلل ملف CSV ويرسم مخططاً بيانياً"><div class="s-title">💻 اكتب كود</div><div class="s-desc">تحليل بيانات CSV برسوم بيانية</div></div><div class="suggestion-card" data-prompt="اكتب لي قصيدة قصيرة عن الطموح والأمل"><div class="s-title">✍️ قصيدة</div><div class="s-desc">قصيدة عربية عن الطموح</div></div><div class="suggestion-card" data-prompt="ضع لي خطة دراسة فعالة لمادة الرياضيات خلال شهر"><div class="s-title">📚 خطة دراسة</div><div class="s-desc">خطة عملية لشهر كامل</div></div></div>';div.querySelectorAll('.suggestion-card').forEach(c=>c.addEventListener('click',()=>sendMessage(c.dataset.prompt)));return div}
-function renderMessages(){chatMessagesEl.innerHTML='';const s=currentSession();if(!s||!s.messages.length){chatMessagesEl.appendChild(buildWelcome())}else{s.messages.forEach(m=>appendMessage(m.role,m.content,{animate:false}));scrollToBottom(false)}}
-function appendMessage(role,content,opts={}){const existing=chatMessagesEl.querySelector('.welcome-hero');if(existing)existing.remove();const row=document.createElement('div');row.className='msg-row '+role;row.innerHTML='<div class="avatar-box '+(role==='user'?'avatar-user':'avatar-ai')+'"><i class="fa-solid '+(role==='user'?'fa-user':'fa-robot')+'"></i></div><div class="msg-body"><div class="msg-sender">'+(role==='user'?'أنت':'KHALED AI')+'</div><div class="msg-bubble"></div></div>';const bubble=row.querySelector('.msg-bubble');if(opts.raw){bubble.innerHTML=content}else{bubble.innerHTML=renderMarkdown(content);enhanceCodeBlocks(bubble)}
-if(role==='assistant'&&!opts.raw){const tools=document.createElement('div');tools.className='msg-tools';tools.innerHTML='<button class="tool-chip tts-btn" title="قراءة بصوت"><i class="fa-solid fa-volume-high me-1"></i>استمع</button><button class="tool-chip copy-btn" title="نسخ"><i class="fa-regular fa-copy me-1"></i>نسخ</button>';bubble.parentNode.appendChild(tools);const txt=opts.text!==undefined?opts.text:content;tools.querySelector('.copy-btn').addEventListener('click',()=>{navigator.clipboard.writeText(txt).then(()=>{const b=tools.querySelector('.copy-btn');b.innerHTML='<i class="fa-solid fa-check me-1"></i>تم';setTimeout(()=>b.innerHTML='<i class="fa-regular fa-copy me-1"></i>نسخ',1500)}).catch(()=>{})});tools.querySelector('.tts-btn').addEventListener('click',()=>speakText(txt))}
-if(!opts.animate)row.style.animation='none';chatMessagesEl.appendChild(row);if(opts.scroll!==false)scrollToBottom();return{row,bubble}}
-function renderMarkdown(t){try{return marked.parse(t)}catch{return escapeHtmlText(t).replace(/\n/g,'<br>')}}
-function enhanceCodeBlocks(c){c.querySelectorAll('pre code').forEach(b=>{try{hljs.highlightElement(b)}catch{};const pre=b.parentElement;if(pre.querySelector('.code-copy-btn'))return;const btn=document.createElement('button');btn.className='code-copy-btn';btn.textContent='نسخ';btn.addEventListener('click',()=>{navigator.clipboard.writeText(b.textContent).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',1500)}).catch(()=>{})});pre.appendChild(btn)})}
-function escapeHtmlText(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
-function scrollToBottom(smooth=true){chatMessagesEl.scrollTo({top:chatMessagesEl.scrollHeight,behavior:smooth?'smooth':'auto'})}
-/* ---- TTS ---- */
-function speakText(text){try{if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const clean=text.replace(/[#*`_>|]/g,'').replace(/\[(.*?)\]\(.*?\)/g,'$1').slice(0,3000);const u=new SpeechSynthesisUtterance(clean);u.lang='ar-SA';const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.startsWith('ar'));if(v)u.voice=v;speechSynthesis.speak(u)}catch{}}
-/* ---- voice input ---- */
-let recognition=null,recording=false;
-(function(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;recognition=new SR();recognition.lang='ar-SA';recognition.interimResults=false;recognition.maxAlternatives=1;const micBtn=$('micBtn');micBtn.style.display='flex';micBtn.addEventListener('click',()=>{if(recording){recognition.stop();return}try{recognition.start();recording=true;micBtn.classList.add('recording');micBtn.title='جارٍ الاستماع — اضغط للإيقاف'}catch{}});recognition.onresult=e=>{const t=e.results[0][0].transcript;userInput.value+=(userInput.value?' ':'')+t;updateCharCount()};recognition.onend=()=>{recording=false;micBtn.classList.remove('recording');micBtn.title='إدخال صوتي'};recognition.onerror=()=>{recording=false;micBtn.classList.remove('recording')}})();
-/* ---- AI engine ---- */
-class AIError extends Error{constructor(status,message){super(message);this.status=status}}
-function friendlyError(err){if(err.name==='AbortError')return 'تم إيقاف الرد.';if(err.status===429)return 'الخدمة مشغولة حاليًا (الخدمة المجانية تسمح بطلب واحد في اللحظة لكل مستخدم). انتظر قليلًا ثم أعد المحاولة.';if(err.status===503||err.status===502)return 'الخادم غير متاح مؤقتًا. أعد المحاولة بعد لحظات.';if(String(err.message).includes('Failed to fetch')||String(err.message).includes('NetworkError'))return 'تعذر الاتصال بالإنترنت أو بالخادم. تحقق من اتصالك.';return err.message||'حدث خطأ غير متوقع.'}
-function isErrorLike(text){const t=text.slice(0,300).toLowerCase();return t.includes('reached its budget')||t.includes('api key used for this request')||t.includes('budget limit')}
-async function fetchAI(messages,signal,onChunk){const body=JSON.stringify({model:AI_MODEL,messages:[{role:'system',content:SYSTEM_PROMPT},...messages],stream:!!onChunk});let attempt=0;while(true){attempt++;const resp=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body,signal});if(resp.ok){if(onChunk)return streamResponse(resp,onChunk);const data=await resp.json().catch(()=>null);const text=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;if(!text||!text.trim())throw new AIError(0,'وصل رد فارغ من المحرك. أعد المحاولة.');if(isErrorLike(text))throw new AIError(429,'الخدمة مشغولة (حصة مؤقتة). أعد المحاولة بعد لحظات.');return text.trim()}
-let errMsg='HTTP '+resp.status;try{const j=await resp.json();if(j.error)errMsg=typeof j.error==='string'?j.error:(j.error.message||errMsg)}catch{}
-const retryable=resp.status===429||resp.status===502||resp.status===503||resp.status===504;
-if(retryable&&attempt<=MAX_RETRIES){await new Promise(r=>setTimeout(r,2000*attempt));continue}
-throw new AIError(resp.status,errMsg)}}
-async function streamResponse(resp,onChunk){const reader=resp.body.getReader();const decoder=new TextDecoder('utf-8');let full='',buffer='';while(true){const{done,value}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});const lines=buffer.split('\n');buffer=lines.pop()||'';for(const line of lines){const t=line.trim();if(!t.startsWith('data:'))continue;const payload=t.slice(5).trim();if(payload==='[DONE]')continue;try{const j=JSON.parse(payload);const piece=(j.choices&&j.choices[0]&&((j.choices[0].delta&&j.choices[0].delta.content)||(j.choices[0].message&&j.choices[0].message.content)))||'';if(piece){full+=piece;onChunk(full)}}catch{}}}
-if(!full.trim())throw new AIError(0,'انتهى البث بدون محتوى. أعد المحاولة.');if(isErrorLike(full))throw new AIError(429,'الخدمة مشغولة (حصة مؤقتة). أعد المحاولة بعد لحظات.');return full.trim()}
-/* ---- chat send ---- */
-async function sendMessage(text){if(isGenerating)return;const prompt=(text!==undefined?text:userInput.value).trim();if(!prompt)return;if(prompt.length>MAX_INPUT_CHARS){alert('النص طويل جدًا (الحد '+MAX_INPUT_CHARS+' حرفًا).');return}
-const s=currentSession()||createSession('محادثة');isGenerating=true;abortController=new AbortController();setGeneratingUI(true);
-s.messages.push({role:'user',content:prompt});if(s.messages.length===1)s.title=prompt.slice(0,40)+(prompt.length>40?'…':'');appendMessage('user',prompt);userInput.value='';updateCharCount();userInput.style.height='auto';persist();renderSessions();
-const els=appendMessage('assistant','',{raw:true});const bubble=els.bubble;bubble.innerHTML='<span class="typing-cursor"></span><span style="color:var(--text-muted);font-size:0.85rem"> يفكر…</span>';
-const context=s.messages.slice(-HISTORY_LIMIT).map(m=>({role:m.role,content:m.content}));
-try{const full=await fetchAI(context,abortController.signal,partial=>{bubble.innerHTML=renderMarkdown(partial)+'<span class="typing-cursor"></span>';enhanceCodeBlocks(bubble);scrollToBottom(false)});
-bubble.innerHTML=renderMarkdown(full);enhanceCodeBlocks(bubble);lastAssistantText=full;
-s.messages.push({role:'assistant',content:full});persist();scrollToBottom()}
-catch(err){if(err.name==='AbortError'){bubble.innerHTML='<div class="error-box">⏹ تم إيقاف توليد الرد.</div>'}else{const msg=escapeHtmlText(friendlyError(err));bubble.innerHTML='<div class="error-box"><strong>تعذر الحصول على رد:</strong> '+msg+'<br><span class="retry-link">↻ أعد المحاولة</span></div>';const retry=bubble.querySelector('.retry-link');if(retry)retry.addEventListener('click',()=>{bubble.closest('.msg-row').remove();s.messages.pop();persist();isGenerating=false;abortController=null;setGeneratingUI(false);sendMessage(prompt)})}}
-finally{isGenerating=false;abortController=null;setGeneratingUI(false)}}
-function setGeneratingUI(g){sendBtn.disabled=g;if(g){sendBtn.innerHTML='<i class="fa-solid fa-stop"></i>';sendBtn.classList.remove('btn-send');sendBtn.classList.add('btn-stop');sendBtn.onclick=e=>{e.preventDefault();if(abortController)abortController.abort()}}else{sendBtn.innerHTML='<i class="fa-solid fa-paper-plane"></i>';sendBtn.classList.add('btn-send');sendBtn.classList.remove('btn-stop');sendBtn.onclick=null}}
-async function checkConnection(){connIndicator.className='conn-indicator conn-checking';connText.textContent='تحقق…';try{const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),12000);const resp=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:AI_MODEL,messages:[{role:'user',content:'ping'}],max_tokens:1}),signal:ctrl.signal});clearTimeout(t);if(resp.ok||resp.status===429){connIndicator.className='conn-indicator conn-ok';connText.textContent='المحرك يعمل'}else throw new Error()}catch{connIndicator.className='conn-indicator conn-bad';connText.textContent='تعذر الوصول للمحرك'}}
-function updateCharCount(){charCountEl.textContent=userInput.value.length+' / '+MAX_INPUT_CHARS}
-userInput.addEventListener('input',()=>{updateCharCount();userInput.style.height='auto';userInput.style.height=Math.min(userInput.scrollHeight,140)+'px'});
-userInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();chatForm.dispatchEvent(new Event('submit'))}});
-chatForm.addEventListener('submit',e=>{e.preventDefault();sendMessage()});
-$('quickChips').addEventListener('click',e=>{const chip=e.target.closest('.quick-chip');if(!chip)return;sendMessage(chip.dataset.prompt)});
-newChatBtn.addEventListener('click',()=>{createSession('محادثة جديدة');if(window.innerWidth<=768)chatSidebar.classList.add('hidden')});
-sidebarToggle.addEventListener('click',()=>chatSidebar.classList.toggle('hidden'));
-/* ================= IMAGE GENERATOR ================= */
-let imgSize={w:1024,h:1024},lastImg={url:'',prompt:''},imgTimer=null;
-$('sizePresets').addEventListener('click',e=>{const chip=e.target.closest('.preset-chip');if(!chip)return;document.querySelectorAll('#sizePresets .preset-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');imgSize={w:+chip.dataset.w,h:+chip.dataset.h}});
-function loadImage(url,prompt){const area=$('imgResult');area.className='result-area';area.innerHTML='<div><span class="spinner"></span><br><span class="loading-text" id="imgTimerText">جارٍ رسم الصورة… 0 ثانية</span></div>';let sec=0;imgTimer=setInterval(()=>{sec++;const el=$('imgTimerText');if(el)el.textContent='جارٍ رسم الصورة… '+sec+' ثانية'},1000);
-const img=new Image();img.crossOrigin='anonymous';const timeout=setTimeout(()=>{clearInterval(imgTimer);img.src='';area.innerHTML='<div class="error-box">استغرق التوليد وقتًا طويلًا. <span class="retry-link" id="imgRetry">أعد المحاولة</span></div>';const r=$('imgRetry');if(r)r.addEventListener('click',()=>generateImage(prompt))},90000);
-img.onload=()=>{clearTimeout(timeout);clearInterval(imgTimer);area.className='result-area has-img';area.innerHTML='';img.style.maxWidth='100%';img.style.borderRadius='12px';area.appendChild(img);lastImg={url,prompt};$('imgActions').style.display='flex';saveToGallery(url,prompt)};
-img.onerror=()=>{clearTimeout(timeout);clearInterval(imgTimer);area.innerHTML='<div class="error-box">تعذر توليد الصورة. <span class="retry-link" id="imgRetry2">أعد المحاولة</span></div>';const r=$('imgRetry2');if(r)r.addEventListener('click',()=>generateImage(prompt))};img.src=url}
-function generateImage(prompt,seed){if(!prompt)return;seed=seed||Math.floor(Math.random()*1e6);const url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width='+imgSize.w+'&height='+imgSize.h+'&nologo=true&seed='+seed;loadImage(url,prompt)}
-$('imgGenBtn').addEventListener('click',()=>{const p=$('imgPrompt').value.trim();if(!p){alert('اكتب وصفًا للصورة أولًا');return}generateImage(p)});
-$('imgPrompt').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('imgGenBtn').click()}});
-$('imgVariation').addEventListener('click',()=>{if(lastImg.prompt)generateImage(lastImg.prompt)});
-$('imgDownload').addEventListener('click',()=>{if(!lastImg.url)return;fetch(lastImg.url).then(r=>r.blob()).then(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='khaled-ai-image.jpg';a.click();URL.revokeObjectURL(a.href)}).catch(()=>{window.open(lastImg.url,'_blank')})});
-function saveToGallery(url,prompt){try{let g=JSON.parse(localStorage.getItem('khaled_gallery')||'[]');g.unshift({url,prompt,ts:Date.now()});g=g.slice(0,12);localStorage.setItem('khaled_gallery',JSON.stringify(g));renderGallery()}catch{}}
-function renderGallery(){try{const g=JSON.parse(localStorage.getItem('khaled_gallery')||'[]');if(!g.length){$('galleryCard').style.display='none';return}$('galleryCard').style.display='block';const grid=$('galleryGrid');grid.innerHTML='';g.forEach(item=>{const d=document.createElement('div');d.className='gallery-item';d.innerHTML='<img loading="lazy" alt=""><div class="g-label"></div>';d.querySelector('img').src=item.url;d.querySelector('.g-label').textContent=item.prompt;d.addEventListener('click',()=>{$('imgPrompt').value=item.prompt;generateImage(item.prompt)});grid.appendChild(d)})}catch{}}
-renderGallery();
-/* ================= PYTHON SANDBOX ================= */
-let pyodide=null,pyLoading=false;
-const PY_EXAMPLES={hello:'# أساسيات بايثون — جرّب عدّل وشغّل\nname = "KHALED AI"\nprint(f"مرحباً من {name}! 🐍")\n\nfor i in range(1, 6):\n    print(f"العدد {i} مربعه = {i**2}")',fib:'# متتالية فيبوناتشي\ndef fib(n):\n    a, b = 0, 1\n    result = []\n    for _ in range(n):\n        result.append(a)\n        a, b = b, a + b\n    return result\n\nprint("أول 15 عدداً في متتالية فيبوناتشي:")\nprint(fib(15))',numpy:'# numpy يعمل هنا فعلياً!\nimport numpy as np\n\narr = np.array([[1, 2, 3], [4, 5, 6]])\nprint("المصفوفة:")\nprint(arr)\nprint("المجموع:", arr.sum())\nprint("المتوسط:", arr.mean())\nprint("المنقول:")\nprint(arr.T)',pandas:'# pandas كاملة في المتصفح!\nimport pandas as pd\n\ndata = {"الاسم": ["أحمد", "سارة", "خالد"], "العمر": [25, 30, 28], "المدينة": ["الرياض", "جدة", "الدمام"]}\ndf = pd.DataFrame(data)\nprint(df)\nprint()\nprint("متوسط العمر:", df["العمر"].mean())'};
-$('pyCode').value=PY_EXAMPLES.hello;
-document.querySelectorAll('#tab-python .preset-chip[data-py]').forEach(chip=>{chip.addEventListener('click',()=>{$('pyCode').value=PY_EXAMPLES[chip.dataset.py]||''})});
-$('pyClearBtn').addEventListener('click',()=>{$('pyOutput').textContent='(مسح)';$('pyStatus').textContent='';$('pyStatus').className='py-status'});
-async function ensurePyodide(statusEl){if(pyodide)return true;if(pyLoading){statusEl.textContent='بانتظار تحميل البيئة…';return false}pyLoading=true;statusEl.className='py-status';statusEl.textContent='⏳ جارٍ تحميل بيئة بايثون لأول مرة (بضع ثوانٍ — مرة واحدة فقط)…';try{pyodide=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/'});statusEl.className='py-status ok';statusEl.textContent='✓ بيئة بايثون جاهزة (Python '+pyodide.version+')';pyLoading=false;return true}catch(err){pyLoading=false;statusEl.className='py-status err';statusEl.textContent='✗ تعذر تحميل بيئة بايثون: '+(err.message||'خطأ غير معروف')+' — تحقق من اتصالك بالإنترنت';return false}}
-$('pyRunBtn').addEventListener('click',async()=>{const code=$('pyCode').value;if(!code.trim())return;const statusEl=$('pyStatus'),out=$('pyOutput');if(!(await ensurePyodide(statusEl)))return;
-statusEl.className='py-status';statusEl.textContent='🐍 جارٍ تنفيذ الكود…';out.textContent='...';
-let output='';pyodide.setStdout({batched:s=>{output+=s+'\n'}});pyodide.setStderr({batched:s=>{output+='⚠️ '+s+'\n'}});
-try{await pyodide.loadPackagesFromImports(code);const result=await pyodide.runPythonAsync(code);if(result!==undefined&&result!==null){output+='\n← النتيجة: '+String(result)}
-out.textContent=output||'(نفّذ الكود بدون مخرجات — استخدم print() لعرض النتائج)';statusEl.className='py-status ok';statusEl.textContent='✓ تم التنفيذ بنجاح'}
-catch(err){out.textContent=output+'\n✗ خطأ:\n'+String(err);statusEl.className='py-status err';statusEl.textContent='✗ حدث خطأ أثناء التنفيذ (انظر الناتج)'}});
-/* ================= SMART SEARCH ================= */
-let lastSearchResults=[];
-function stripHtml(s){const d=document.createElement('div');d.innerHTML=s;return d.textContent||d.innerText||''}
-$('searchQuery').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('searchBtn').click()}});
-$('searchBtn').addEventListener('click',async()=>{const q=$('searchQuery').value.trim();if(!q)return;const resultsBox=$('searchResults'),srcList=$('srcList'),sumBox=$('aiSummary');sumBox.style.display='none';resultsBox.style.display='block';srcList.innerHTML='<div style="text-align:center;padding:1rem"><span class="spinner"></span><br><span class="loading-text">جارٍ البحث في ويكيبيديا…</span></div>';
-try{const url='https://ar.wikipedia.org/w/api.php?action=query&list=search&srsearch='+encodeURIComponent(q)+'&format=json&origin=*&srlimit=5&srprop=snippet';const r=await fetch(url);const d=await r.json();const hits=d.query&&d.query.search?d.query.search:[];
-if(!hits.length){srcList.innerHTML='<div class="error-box">لا توجد نتائج لـ "'+escapeHtmlText(q)+'" في ويكيبيديا العربية. جرّب كلمات أخرى.</div>';lastSearchResults=[];return}
-lastSearchResults=hits.map((h,i)=>({num:i+1,title:h.title,url:'https://ar.wikipedia.org/wiki/'+encodeURIComponent(h.title.replace(/ /g,'_')),snippet:stripHtml(h.snippet)}));
-srcList.innerHTML='';lastSearchResults.forEach(r=>{const div=document.createElement('div');div.className='src-card';div.innerHTML='<span class="src-num">'+r.num+'</span><a class="src-title" target="_blank" rel="noopener" href="'+r.url+'">'+escapeHtmlText(r.title)+'</a><div class="src-snip">'+escapeHtmlText(r.snippet)+'…</div>';srcList.appendChild(div)})}
-catch(err){srcList.innerHTML='<div class="error-box">تعذر البحث: '+escapeHtmlText(err.message||'خطأ في الاتصال')+'</div>'}});
-$('summarizeBtn').addEventListener('click',async()=>{if(!lastSearchResults.length)return;const sumBox=$('aiSummary');sumBox.style.display='block';sumBox.innerHTML='<span class="spinner"></span> <span class="loading-text">جارٍ التلخيص الذكي…</span>';
-const sources=lastSearchResults.map(r=>'['+r.num+'] '+r.title+': '+r.snippet).join('\n');
-const q=$('searchQuery').value.trim();
-try{const full=await fetchAI([{role:'user',content:'سؤال البحث: "'+q+'"\n\nمراجع من ويكيبيديا:\n'+sources+'\n\nلخص المعلومات من هذه المراجع فقط بإجابة واضحة ومنظمة بالعربية. استخدم أرقام المراجع [1] [2] بين السطور عند ذكر معلومة، واذكر صراحة إن كانت المراجع لا تجيب السؤال كاملًا. لا تخترع معلومات ليست في المراجع.'}]);
-sumBox.innerHTML='<strong style="color:var(--accent-blue)"><i class="fa-solid fa-brain me-1"></i>الملخص الذكي:</strong><hr style="border-color:rgba(255,255,255,0.1)">'+renderMarkdown(full)}
-catch(err){sumBox.innerHTML='<div class="error-box">تعذر التلخيص: '+escapeHtmlText(friendlyError(err))+'<br>المصادر أعلاه متاحة للقراءة المباشرة.</div>'}});
-/* ---- boot ---- */
-renderSessions();renderMessages();updateCharCount();checkConnection();setInterval(checkConnection,5*60*1000);
+/* navigation wiring */
+$$('.tool-card[data-view]').forEach(c=>c.addEventListener('click',()=>showView(c.dataset.view)));
+$('brandHome').addEventListener('click',()=>showView('home'));
+$('homeBtn').addEventListener('click',()=>showView('home'));
+$$('button[data-home]').forEach(b=>b.addEventListener('click',()=>showView('home')));
+/* init everything */
+initChatUI();chatRenderSessions();chatRenderMessages();chatUpdateCount();
+initImageUI();initTranslateUI();initSummarizerUI();initSearchUI();
+initPrayerUI();initHijriUI();initWeatherUI();initCryptoUI();
+initPythonUI();initPlaygroundUI();initDictationUI();initTTSUI();
+initQRUI();initPasswordUI();initRegexUI();initJSONUI();
+showView('home');
+checkConnection();setInterval(checkConnection,5*60*1000);
 </script>
 </body>
 </html>
