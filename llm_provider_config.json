@@ -1,12 +1,19 @@
 {
   "schema": "khaled-llm-provider-v1",
-  "provider": "openrouter",
-  "model": "openrouter/qwen/qwen3-235b-a22b-thinking-2507",
-  "api_key_environment": "OPENROUTER_API_KEY",
+  "provider": "pollinations",
+  "model": "openai (gpt-oss-20b via text.pollinations.ai/openai POST)",
+  "api_key_environment": "",
   "api_key_embedded": false,
-  "live_call_verified": false,
+  "pricing": "free, no account, anonymous tier (1 concurrent request per IP)",
+  "live_call_verified": true,
+  "extra_tools": [
+    "image.pollinations.ai — free AI image generation, no key",
+    "Pyodide v0.25.1 — real Python (numpy/pandas) in the browser",
+    "ar.wikipedia.org API — free search grounding with citations",
+    "Web Speech API — free voice input (ar-SA) and text-to-speech"
+  ],
   "truth_policy": {
-    "provider_required": true,
+    "provider_required": false,
     "no_fake_success": true,
     "live_success_requires_real_call": true
   }
