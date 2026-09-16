@@ -239,3 +239,5 @@ input[type=range]{flex:1;accent-color:var(--accent-blue)}
 .set-hint{background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:10px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--text-muted);line-height:1.7;margin-top:0.4rem}
 .engine-tag{font-size:0.72rem;color:var(--accent-blue);font-weight:600}
 #abPreview{width:100%;min-height:380px;background:#fff;border:1px solid var(--card-border);border-radius:12px;margin-bottom:0.8rem}
+.src-num.web{background:rgba(56,189,248,0.15);color:var(--accent-blue);font-size:0.75rem}
+.src-num.web{background:rgba(56,189,248,0.15);color:var(--accent-blue);font-size:0.75rem}
