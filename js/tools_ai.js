@@ -24,7 +24,7 @@ function chatRenderSessions(){
 }
 function chatBuildWelcome(){
   const div=document.createElement('div');div.className='welcome-hero';
-  div.innerHTML='<div class="hero-icon"><i class="fa-solid fa-robot"></i></div><h2 style="font-weight:800;font-size:1.4rem;margin-bottom:0.5rem">أهلاً بك 👋</h2><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.8;margin-bottom:1.2rem">اسألني أي شيء — مع إعادة محاولة تلقائية ذكية عند انشغال الخدمة.</p><div class="welcome-suggestions"></div>';
+  div.innerHTML='<div class="hero-icon"><i class="fa-solid fa-robot"></i></div><h2 style="font-weight:800;font-size:1.4rem;margin-bottom:0.5rem">أهلاً بك 👋</h2><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.8;margin-bottom:0.6rem">اسألني أي شيء — مع إعادة محاولة تلقائية ذكية عند انشغال الخدمة.</p><div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.35);border-radius:10px;padding:0.5rem 0.8rem;font-size:0.78rem;color:#fbbf24;margin-bottom:1.2rem;line-height:1.7">💡 لم تصلك الردود؟ المحرك المجاني مزدحم (طلب واحد لكل IP وإنترنت الجوال مشترك بين مئات المستخدمين) — الحل الدائم: مفتاح Groq مجاني بـ30 ثانية من زر «المحركات ⚙» بالأعلى.</div><div class="welcome-suggestions"></div>';
   const sug=div.querySelector('.welcome-suggestions');
   [['🧠 اشرح لي','الفرق بين الذكاء الاصطناعي والتعلم العميق'],['💻 اكتب كود','كود بايثون يحلل ملف CSV'],['✍️ قصيدة','قصيدة قصيرة عن الطموح والأمل'],['📚 خطة دراسة','خطة دراسة للرياضيات في شهر']].forEach(([t,p])=>{
     const c=document.createElement('div');c.className='suggestion-card';
@@ -94,9 +94,10 @@ async function chatSend(text){
   }catch(err){
     if(err.name==='AbortError'){bubble.innerHTML='<div class="error-box">⏹ تم إيقاف توليد الرد.</div>'}
     else{
-      bubble.innerHTML='<div class="error-box"><strong>تعذر الحصول على رد:</strong> '+escapeHtmlText(friendlyError(err))+'<br><span class="retry-link">↻ أعد المحاولة</span></div>';
+      bubble.innerHTML='<div class="error-box"><strong>تعذر الحصول على رد:</strong> '+escapeHtmlText(friendlyError(err))+'<br><span class="retry-link">↻ أعد المحاولة</span> — أو <span class="retry-link" id="goEngines">⚙ فعّل محركًا أقوى مجانًا (مفتاح Groq بـ30 ثانية)</span></div>';
       const r=bubble.querySelector('.retry-link');
       if(r)r.addEventListener('click',()=>{bubble.closest('.msg-row').remove();s.messages.pop();chatPersist();isGenerating=false;abortController=null;chatSetGeneratingUI(false);chatSend(prompt)});
+      const ge=bubble.querySelector('#goEngines');if(ge)ge.addEventListener('click',()=>showView('settings'));
     }
   }finally{isGenerating=false;abortController=null;chatSetGeneratingUI(false)}
 }
