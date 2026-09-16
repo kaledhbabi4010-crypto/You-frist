@@ -43,7 +43,7 @@
 </div>
 <div class="cat-title">💻 البرمجة والتطوير<span class="cat-line"></span></div>
 <div class="tools-grid">
-<div class="tool-card" data-view="python" style="--tc:#10b981"><div class="tc-icon"><i class="fa-brands fa-python"></i></div><div class="tc-title">بايثون في المتصفح</div><div class="tc-desc">بيئة Python حقيقية مع numpy وpandas — بدون تثبيت وبدون خادم.</div></div>
+<div class="tool-card" data-view="python" style="--tc:#10b981"><div class="tc-icon"><i class="fa-brands fa-python"></i></div><div class="tc-title">بايثون في المتصفح</div><div class="tc-desc">بايثون حقيقية كاملة مع numpy وpandas — أول تشغيل يحمّلها مرة واحدة (بمصدر بديل تلقائي).</div></div>
 <div class="tool-card" data-view="playground" style="--tc:#38bdf8"><div class="tc-icon"><i class="fa-solid fa-code"></i></div><div class="tc-title">منصة الأكواد</div><div class="tc-desc">اكتب HTML وCSS وJavaScript وشاهد النتيجة فورًا بمعاينة حية.</div></div>
 <div class="tool-card" data-view="regex" style="--tc:#f43f5e"><div class="tc-icon"><i class="fa-solid fa-bolt-lightning"></i></div><div class="tc-title">مدقق Regex</div><div class="tc-desc">اختبر أنماط التعبيرات النظامية واكتشف التطابقات فورًا.</div></div>
 <div class="tool-card" data-view="json" style="--tc:#10b981"><div class="tc-icon"><i class="fa-solid fa-brackets-curly"></i></div><div class="tc-title">أداة JSON</div><div class="tc-desc">تنسيق وتصغير والتحقق من صحة JSON مع تحديد الأخطاء بدقة.</div></div>
@@ -66,7 +66,7 @@
 <div class="cat-title">🚀 المحركات الخارقة<span class="cat-line"></span></div>
 <div class="tools-grid">
 <div class="tool-card" data-view="settings" style="--tc:#f59e0b"><div class="tc-icon"><i class="fa-solid fa-gears"></i></div><div class="tc-title">إعدادات المحركات</div><div class="tc-desc">10 محركات ذكاء: Groq وGemini وDeepSeek وQwen وOpenRouter — مفاتيح مجانية.</div></div>
-<div class="tool-card" data-view="deepsearch" style="--tc:#38bdf8"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-radar"></i></div><div class="tc-title">البحث العميق</div><div class="tc-desc">بحث شامل بالعربية والإنجليزية معًا + تحليل ذكي شامل للمراجع.</div></div>
+<div class="tool-card" data-view="deepsearch" style="--tc:#38bdf8"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-radar"></i></div><div class="tc-title">البحث العميق</div><div class="tc-desc">بحث حقيقي في الويب كامل + ويكيبيديا بلغتين + تقرير ذكي موثق بالمصادر.</div></div>
 <div class="tool-card" data-view="appbuilder" style="--tc:#10b981"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="tc-title">منشئ التطبيقات</div><div class="tc-desc">صِف تطبيقك بالكلام واحصل على مشروع كامل جاهز بمعاينة حية وتحميل.</div></div>
 <div class="tool-card" data-view="jobs" style="--tc:#c084fc"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-briefcase"></i></div><div class="tc-title">مركز الوظائف</div><div class="tc-desc">سيرة ذاتية احترافية + خطاب تقديم + تدريب على المقابلات — جاهز للطباعة.</div></div>
 </div>
@@ -451,7 +451,7 @@
 <section class="app-view" id="view-deepsearch">
 <div class="tool-wrap">
 <div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
-<div class="tool-head"><h2><i class="fa-solid fa-radar"></i>البحث العميق الشامل</h2><p>بحث متزامن في ويكيبيديا العربية والإنجليزية معًا + تحليل ذكي يجمع المراجع في تقرير واحد موثق.</p></div>
+<div class="tool-head"><h2><i class="fa-solid fa-radar"></i>البحث العميق الشامل</h2><p>بحث حقيقي في الويب كامل (DuckDuckGo) + ويكيبيديا بلغتين + تقرير ذكي موثق بالمصادر.</p></div>
 <div class="tool-card-box">
 <div class="tool-input-row">
 <input class="tool-input" id="dsQuery" placeholder="مثال: أزمة الطاقة العالمية، الذكاء الاصطناعي في الطب…" autocomplete="off">
@@ -575,12 +575,7 @@ $('homeBtn').addEventListener('click',()=>showView('home'));
 $('settingsBtn').addEventListener('click',()=>showView('settings'));
 $$('button[data-home]').forEach(b=>b.addEventListener('click',()=>showView('home')));
 /* init everything */
-initChatUI();chatRenderSessions();chatRenderMessages();chatUpdateCount();
-initImageUI();initTranslateUI();initSummarizerUI();initSearchUI();
-initPrayerUI();initHijriUI();initWeatherUI();initCryptoUI();
-initPythonUI();initPlaygroundUI();initDictationUI();initTTSUI();
-initQRUI();initPasswordUI();initRegexUI();initJSONUI();
-initSettingsUI();initDeepSearchUI();initAppBuilderUI();initJobsUI();updateEngineTag();
+['initChatUI','chatRenderSessions','chatRenderMessages','chatUpdateCount','updateEngineTag','initImageUI','initTranslateUI','initSummarizerUI','initSearchUI','initPrayerUI','initHijriUI','initWeatherUI','initCryptoUI','initPythonUI','initPlaygroundUI','initDictationUI','initTTSUI','initQRUI','initPasswordUI','initRegexUI','initJSONUI','initSettingsUI','initDeepSearchUI','initAppBuilderUI','initJobsUI'].forEach(fn=>{try{window[fn]()}catch(e){console.error(fn,e)}});
 showView('home');
 checkConnection();setInterval(checkConnection,5*60*1000);
 </script>
