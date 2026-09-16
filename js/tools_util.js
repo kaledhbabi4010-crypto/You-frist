@@ -8,13 +8,21 @@ hello:'# أساسيات بايثون — عدّل وشغّل\nname = "KHALED AI"
 fib:'def fib(n):\n    a, b = 0, 1\n    result = []\n    for _ in range(n):\n        result.append(a)\n        a, b = b, a + b\n    return result\n\nprint("أول 15 عدداً في متتالية فيبوناتشي:")\nprint(fib(15))',
 numpy:'import numpy as np\n\narr = np.array([[1, 2, 3], [4, 5, 6]])\nprint("المصفوفة:")\nprint(arr)\nprint("المجموع:", arr.sum())\nprint("المتوسط:", arr.mean())\nprint("المنقول:")\nprint(arr.T)',
 pandas:'import pandas as pd\n\ndata = {"الاسم": ["أحمد", "سارة", "خالد"], "العمر": [25, 30, 28]}\ndf = pd.DataFrame(data)\nprint(df)\nprint("متوسط العمر:", df["العمر"].mean())'};
+const PY_CDNS=['https://cdn.jsdelivr.net/pyodide/v0.25.1/full/','https://cdnjs.cloudflare.com/ajax/libs/pyodide/0.25.1/full/'];
+function loadPyScript(base){return new Promise((res,rej)=>{if(window.loadPyodide)return res();const s=document.createElement('script');s.src=base+'pyodide.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
 async function ensurePyodide(statusEl){
   if(pyodide)return true;
-  if(pyLoading){statusEl.textContent='بانتظار تحميل البيئة…';return false}
-  pyLoading=true;statusEl.className='py-status';statusEl.textContent='⏳ جارٍ تحميل بيئة بايثون (مرة واحدة فقط)…';
-  try{pyodide=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/'});
-    statusEl.className='py-status ok';statusEl.textContent='✓ بايثون '+pyodide.version+' جاهزة';pyLoading=false;return true}
-  catch(err){pyLoading=false;statusEl.className='py-status err';statusEl.textContent='✗ تعذر تحميل بيئة بايثون — تحقق من اتصالك';return false}
+  if(pyLoading){statusEl.textContent='⏳ بانتظار تحميل بيئة بايثون — لحظات…';return false}
+  pyLoading=true;statusEl.className='py-status';
+  statusEl.textContent='⏳ جارٍ تحميل بيئة بايثون الكاملة (Python + numpy + pandas) — المرة الأولى فقط وقد تستغرق حتى دقيقة على الإنترنت البطيء، لا تغادر الصفحة…';
+  for(const base of PY_CDNS){
+    try{await loadPyScript(base);pyodide=await window.loadPyodide({indexURL:base});
+      statusEl.className='py-status ok';statusEl.textContent='✓ بايثون '+pyodide.version+' جاهزة تمامًا';pyLoading=false;return true}
+    catch(e){/* نجرب المصدر التالي */}
+  }
+  pyLoading=false;statusEl.className='py-status err';
+  statusEl.textContent='✗ تعذر تحميل بايثون من المصدرين — تحقق من إنترنتك واضغط تشغيل مجددًا';
+  return false;
 }
 async function pyRun(){
   const code=$('pyCode').value;if(!code.trim())return;
