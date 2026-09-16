@@ -1,200 +1,171 @@
 'use strict';
-/* KHALED AI â€” tools_fix.js (v3): ØªØ´Ø®ÙŠØµ Ø¬Ø°Ø±ÙŠ Ù…ØªØ¹Ø¯Ø¯ Ø§Ù„Ù…Ù„ÙØ§Øª
-   Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… ÙŠØµÙ Ù "Ø§Ù„Ù…Ø´ÙƒÙ„Ø©" ÙÙ‚Ø·ØŒ ÙˆØ§Ù„Ù…Ø­Ø±Ùƒ ÙŠØ­Ø¯Ø¯ Ø¨Ù†ÙØ³Ù‡ Ø£ÙŠ Ø§Ù„Ù…Ù„ÙØ§Øª ØªØ­ØªØ§Ø¬ Ù‚Ø±Ø§Ø¡Ø© ÙˆØªØ¹Ø¯ÙŠÙ„. */
-const FX_REPO='kaledhbabi4010-crypto/Dad';
-const FX_FILES=['index.html','css/app.css','js/core.js','js/tools_ai.js','js/tools_knowledge.js','js/tools_util.js','js/tools_pro.js','js/tools_fix.js'];
-let fxBatch=[];
+/* KHALED AI SUITE — core.js v2: عشرة محركات ذكاء، تنقل، تخزين، كلام، MarkDown */
+const MAX_INPUT_CHARS=4000;
+const SYSTEM_PROMPT='أنت "KHALED AI"، مساعد ذكي عربي محترف ودقيق من منصة عربية مجانية. قواعدك: 1) أجب بالعربية الفصحى الواضحة إلا إذا طلب المستخدم لغة أخرى. 2) كن دقيقًا وصادقًا: إذا لم تكن متأكدًا فقل ذلك صراحة بدل التخمين. 3) استخدم Markdown عند الحاجة. 4) في الأكواد اذكر اسم اللغة واكتب كودًا صحيحًا قابلًا للتشغيل. 5) كن عمليًا ومختصرًا بدون حشو.';
 
-function fxTok(){return (lsGet('khaled_gh_token','')||'').trim()}
+/* ============ عشرة محركات ذكاء ============ */
+const ENGINES={
+pollinations:{name:'Pollinations — مجاني بدون مفتاح',keyless:true,url:'https://text.pollinations.ai/openai',models:['openai'],hint:'يعمل فورًا بدون مفتاح — لكنه خدمة مجانية مزدحمة (طلب واحد في اللحظة لكل IP). إذا كنت على إنترنت مشترك (جوال/مقاهي) قد تشارك عنوانك مع مئات المستخدمين فيبطئ الرد أو يفشل — الحل الدائم والأسرع: مفتاح Groq المجاني (30 ثانية).'},
+groq:{name:'Groq — أسرع محرك في العالم',url:'https://api.groq.com/openai/v1/chat/completions',models:['openai/gpt-oss-20b','llama-3.3-70b-versatile','openai/gpt-oss-120b','qwen/qwen3-32b','deepseek-r1-distill-llama-70b','gemma2-9b-it'],hint:'مفتاح مجاني 100% من: console.groq.com/keys — سرعة خرافية وحدود يومية سخية.'},
+gemini:{name:'Google Gemini',url:'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',models:['gemini-2.0-flash','gemini-2.5-flash','gemini-2.5-pro'],hint:'مفتاح مجاني 100% من: aistudio.google.com/apikey — من جوجل مباشرة وبحدود يومية ممتازة.'},
+openrouter:{name:'OpenRouter — عشرات النماذج المجانية',url:'https://openrouter.ai/api/v1/chat/completions',models:['deepseek/deepseek-chat-v3.1:free','qwen/qwen3-235b-a22b:free','meta-llama/llama-3.3-70b-instruct:free','google/gemini-2.0-flash-exp:free','mistralai/mistral-small-3.1-24b-instruct:free'],hint:'مفتاح من: openrouter.ai/settings/keys ثم اختر أي موديل ينتهي بـ ":free" — يعمل مجانًا.'},
+deepseek:{name:'DeepSeek — ذكاء عميق',url:'https://api.deepseek.com/v1/chat/completions',models:['deepseek-chat','deepseek-reasoner'],hint:'مفتاح من: platform.deepseek.com — أسعار زهيدة جدًا وذكاء قوي.'},
+qwen:{name:'Qwen — من علي بابا',url:'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions',models:['qwen-plus','qwen-max','qwen-turbo'],hint:'مفتاح من: dashscope.console.aliyun.com — باقة مجانية للتجربة.'},
+mistral:{name:'Mistral — أوروبي',url:'https://api.mistral.ai/v1/chat/completions',models:['mistral-large-latest','mistral-small-latest'],hint:'مفتاح من: console.mistral.ai — باقة مجانية تجريبية.'},
+together:{name:'Together AI — نماذج مفتوحة',url:'https://api.together.xyz/v1/chat/completions',models:['meta-llama/Llama-3.3-70B-Instruct-Turbo','Qwen/Qwen2.5-72B-Instruct-Turbo','deepseek-ai/DeepSeek-V3'],hint:'مفتاح من: api.together.ai — يجمع أفضل النماذج المفتوحة.'},
+cohere:{name:'Cohere',url:'https://api.cohere.ai/compatibility/v1/chat/completions',models:['command-r-plus','command-r'],hint:'مفتاح من: dashboard.cohere.com — مفتاح تجريبي مجاني.'},
+custom:{name:'مخصص — أي خدمة متوافقة مع OpenAI',url:'',models:[],hint:'أدخل رابط أي خدمة متوافقة مع OpenAI (ينتهي بـ /chat/completions) مع مفتاحك واسم الموديل.'}};
 
-function fxCheckSyntax(file, content){
-  const errors=[];
-  if(file.endsWith('.js')){ try{ new Function(content);}catch(e){errors.push('Ø®Ø·Ø£ JS: '+e.message)} }
-  if(file.endsWith('.html')){
-    [...content.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)].forEach((m,i)=>{
-      if(!m[1].trim())return;
-      try{ new Function(m[1]);}catch(e){errors.push('Ø®Ø·Ø£ JS Ø¯Ø§Ø®Ù„ <script> #'+(i+1)+': '+e.message)}
-    });
-    ['div','section','script','style'].forEach(tag=>{
-      const o=(content.match(new RegExp('<'+tag+'(\\s|>)','gi'))||[]).length;
-      const c=(content.match(new RegExp('</'+tag+'>','gi'))||[]).length;
-      if(o!==c) errors.push('Ø§Ø®ØªÙ„Ø§Ù„ ØªÙˆØ§Ø²Ù† <'+tag+'>: ÙØªØ­ '+o+' / Ø¥ØºÙ„Ø§Ù‚ '+c);
-    });
+function getEngineState(){const st=lsGet('khaled_engine_v1',{id:'pollinations',key:'',model:'',url:''});if(!ENGINES[st.id])st.id='pollinations';return st}
+function setEngineState(st){lsSet('khaled_engine_v1',st)}
+function engineLabel(){const st=getEngineState();const cfg=ENGINES[st.id];const model=st.model||(cfg.models&&cfg.models[0])||'';return cfg.name.split('—')[0].trim()+(model?' • '+model:'')}
+function updateEngineTag(){const el=document.getElementById('engineTag');if(el)el.textContent='⚙ المحرك: '+engineLabel()}
+
+const $=id=>document.getElementById(id);
+const $$=sel=>document.querySelectorAll(sel);
+function lsGet(k,f){try{const v=JSON.parse(localStorage.getItem(k));return v===null?f:v}catch{return f}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
+function escapeHtmlText(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function stripHtml(s){const d=document.createElement('div');d.innerHTML=s;return d.textContent||d.innerText||''}
+function renderMarkdown(t){try{return marked.parse(t)}catch{return escapeHtmlText(t).replace(/\n/g,'<br>')}}
+function enhanceCodeBlocks(c){c.querySelectorAll('pre code').forEach(b=>{try{hljs.highlightElement(b)}catch{};const pre=b.parentElement;if(pre.querySelector('.code-copy-btn'))return;const btn=document.createElement('button');btn.className='code-copy-btn';btn.textContent='نسخ';btn.addEventListener('click',()=>{navigator.clipboard.writeText(b.textContent).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',1500)}).catch(()=>{})});pre.appendChild(btn)})}
+function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),320)},2200)}
+async function copyText(txt){try{await navigator.clipboard.writeText(txt);toast('تم النسخ ✓')}catch{toast('تعذر النسخ — انسخ يدويًا')}}
+
+/* ---------- navigation ---------- */
+const VIEW_IDS=['home','chat','images','python','playground','search','translate','summarizer','weather','crypto','prayer','hijri','dictation','tts','qr','password','regex','json','deepsearch','appbuilder','jobs','settings','fixit'];
+function showView(v){
+  if(!VIEW_IDS.includes(v))v='home';
+  $$('.app-view').forEach(s=>s.classList.toggle('active',s.id==='view-'+v));
+  window.scrollTo({top:0});
+}
+
+/* ---------- AI dispatch: any engine, OpenAI-compatible ---------- */
+class AIError extends Error{constructor(status,message){super(message);this.status=status}}
+function isErrorLike(text){const t=text.slice(0,300).toLowerCase();return t.includes('reached its budget')||t.includes('api key used for this request')||t.includes('budget limit')}
+function friendlyError(err){
+  if(err.name==='AbortError')return 'تم إيقاف الرد.';
+  if(err.status===401||err.status===403)return 'المفتاح غير صحيح أو منتهي — راجع إعدادات المحركات.';
+  if(err.status===429)return 'الخدمة مشغولة حاليًا (حد الطلبات المجانية).';
+  if(err.status===503||err.status===502)return 'الخادم غير متاح مؤقتًا.';
+  if(String(err.message).includes('Failed to fetch')||String(err.message).includes('NetworkError'))return 'تعذر الاتصال — تحقق من اتصالك بالإنترنت أو من مفتاح المحرك.';
+  return err.message||'حدث خطأ غير متوقع.';
+}
+async function streamResponse(resp,onChunk){
+  const reader=resp.body.getReader();const decoder=new TextDecoder('utf-8');
+  let full='',buffer='';
+  while(true){const{done,value}=await reader.read();if(done)break;
+    buffer+=decoder.decode(value,{stream:true});const lines=buffer.split('\n');buffer=lines.pop()||'';
+    for(const line of lines){const t=line.trim();if(!t.startsWith('data:'))continue;const payload=t.slice(5).trim();
+      if(payload==='[DONE]')continue;
+      try{const j=JSON.parse(payload);const piece=(j.choices&&j.choices[0]&&((j.choices[0].delta&&j.choices[0].delta.content)||(j.choices[0].message&&j.choices[0].message.content)))||'';
+        if(piece){full+=piece;onChunk(full)}}catch{}}}
+  if(!full.trim())throw new AIError(0,'انتهى البث بدون محتوى.');
+  if(isErrorLike(full))throw new AIError(429,'حصة الاستخدام المؤقتة مشغولة.');
+  return full.trim();
+}
+async function aiCallOnce(messages,signal,onChunk,forcedEngine){
+  const st=forcedEngine||getEngineState();const cfg=ENGINES[st.id];
+  const url=st.id==='custom'?st.url:cfg.url;
+  if(!url)throw new AIError(0,'أدخل رابط المحرك المخصص في الإعدادات أولًا.');
+  const headers={'Content-Type':'application/json'};
+  if(!cfg.keyless){st.key=(st.key||'').trim();if(!st.key)throw new AIError(401,'هذا المحرك يحتاج مفتاح API — أضفه من إعدادات المحركات (⚙).');headers.Authorization='Bearer '+st.key}
+  const model=st.model||cfg.models[0]||'openai';
+  const internal=new AbortController();
+  const onOuterAbort=()=>internal.abort();
+  if(signal)signal.addEventListener('abort',onOuterAbort);
+  const timer=setTimeout(()=>internal.abort(),90000);
+  let resp;
+  try{
+    resp=await fetch(url,{method:'POST',headers,body:JSON.stringify({model,messages,stream:!!onChunk}),signal:internal.signal});
+  }catch(e){
+    clearTimeout(timer);if(signal)signal.removeEventListener('abort',onOuterAbort);
+    if(signal&&signal.aborted)throw new DOMException('aborted','AbortError');
+    throw new AIError(0,'انتهت مهلة المحرك (90 ثانية) بلا رد — سيُعاد تلقائيًا');
   }
-  if(file.endsWith('.json')){ try{ JSON.parse(content);}catch(e){errors.push('JSON ØºÙŠØ± ØµØ§Ù„Ø­: '+e.message)} }
-  return errors;
-}
-function fxExtractIdentifiers(c){
-  return {ids:new Set([...c.matchAll(/\bid=["']([a-zA-Z0-9_-]+)["']/g)].map(m=>m[1])),
-          fns:new Set([...c.matchAll(/\bfunction\s+([a-zA-Z0-9_$]+)\s*\(/g)].map(m=>m[1]))};
-}
-function fxCheckPreservation(orig, patched){
-  const b=fxExtractIdentifiers(orig), a=fxExtractIdentifiers(patched);
-  return {missingIds:[...b.ids].filter(x=>!a.ids.has(x)), missingFns:[...b.fns].filter(x=>!a.fns.has(x))};
-}
-function fxLineDiff(oldT,newT){
-  const a=oldT.split('\n'), b=newT.split('\n'), n=a.length, m=b.length;
-  const dp=Array.from({length:n+1},()=>new Uint32Array(m+1));
-  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--) dp[i][j]=a[i]===b[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
-  const out=[];let i=0,j=0;
-  while(i<n&&j<m){ if(a[i]===b[j]){i++;j++} else if(dp[i+1][j]>=dp[i][j+1]){out.push({t:'-',l:a[i]});i++} else{out.push({t:'+',l:b[j]});j++} }
-  while(i<n){out.push({t:'-',l:a[i]});i++} while(j<m){out.push({t:'+',l:b[j]});j++}
-  return out;
-}
-function fxRenderDiff(diffLines){
-  const shown=diffLines.filter(d=>d.t!==' ').slice(0,300);
-  if(!shown.length) return '(Ù„Ø§ ÙØ±Ù‚ Ù…Ù„Ù…ÙˆØ³)';
-  return shown.map(d=>'<div class="'+(d.t==='+'?'fx-diff-add':'fx-diff-del')+'">'+(d.t==='+'?'+ ':'- ')+escapeHtmlText(d.l)+'</div>').join('');
-}
-
-async function fxSelectFiles(problem){
-  const list=FX_FILES.map(f=>'- '+f).join('\n');
-  const prompt='Ù…Ø³ØªÙˆØ¯Ø¹ Ù…ÙˆÙ‚Ø¹ ÙˆÙŠØ¨ ÙÙŠÙ‡ Ù‡Ø°ÙŠ Ø§Ù„Ù…Ù„ÙØ§Øª:\n'+list+'\n\nÙˆØµÙ Ø§Ù„Ù…Ø´ÙƒÙ„Ø©: "'+problem+'"\n\nØ£ÙŠ Ø§Ù„Ù…Ù„ÙØ§Øª ÙŠØ¬Ø¨ Ù‚Ø±Ø§Ø¡ØªÙ‡Ø§ Ù„ØªØ´Ø®ÙŠØµ ÙˆØ­Ù„ Ù‡Ø°ÙŠ Ø§Ù„Ù…Ø´ÙƒÙ„Ø© Ù…Ù† Ø¬Ø°ÙˆØ±Ù‡Ø§ØŸ Ø§ÙƒØªØ¨ Ø£Ø³Ù…Ø§Ø¡ Ø§Ù„Ù…Ù„ÙØ§Øª ÙÙ‚Ø· (Ù…Ù† Ø§Ù„Ù‚Ø§Ø¦Ù…Ø© Ø£Ø¹Ù„Ø§Ù‡ Ø¨Ø§Ù„Ø¶Ø¨Ø·)ØŒ ÙƒÙ„ Ø§Ø³Ù… Ø¨Ø³Ø·Ø±ØŒ Ø¨Ø¯ÙˆÙ† Ø£ÙŠ Ø´Ø±Ø­. Ù„Ø§ ØªØ®ØªØ± Ø£ÙƒØ«Ø± Ù…Ù† 3 Ø¥Ù„Ø§ Ù„Ùˆ Ø¶Ø±ÙˆØ±ÙŠ.';
-  const reply=await callAI([{role:'user',content:prompt}],{maxAttempts:3});
-  const picked=reply.split('\n').map(l=>l.trim().replace(/^[-*]\s*/,'')).filter(l=>FX_FILES.includes(l));
-  return picked.length?[...new Set(picked)]:['index.html'];
-}
-
-async function fxDiagnoseAndFix(problem, filesContent){
-  const block=Object.entries(filesContent).map(([f,c])=>'FILE: '+f+'\n```\n'+c+'\n```').join('\n\n');
-  const prompt='Ø£Ù†Øª Ù…Ù‡Ù†Ø¯Ø³ ØµÙŠØ§Ù†Ø© Ø¬Ø°Ø±ÙŠ Ù„Ù…ÙˆÙ‚Ø¹ ÙˆÙŠØ¨ Ø­Ù‚ÙŠÙ‚ÙŠ. Ù‡Ø°ÙŠ Ø§Ù„Ù…Ù„ÙØ§Øª Ø°Ø§Øª Ø§Ù„Ø¹Ù„Ø§Ù‚Ø©:\n\n'+block
-    +'\n\nÙ…Ø´ÙƒÙ„Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…: "'+problem+'"\n\n'
-    +'Ø´Ø®Ù‘Øµ Ø§Ù„Ø³Ø¨Ø¨ Ø§Ù„Ø¬Ø°Ø±ÙŠ Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ (Ù…Ùˆ ÙÙ‚Ø· Ø§Ù„Ø£Ø¹Ø±Ø§Ø¶)ØŒ Ø«Ù… Ø£ØµÙ„Ø­Ù‡ Ø¹Ø¨Ø± Ø£ÙŠ Ù…Ù† Ø§Ù„Ù…Ù„ÙØ§Øª Ø£Ø¹Ù„Ø§Ù‡ ÙŠØ­ØªØ§Ø¬ ØªØ¹Ø¯ÙŠÙ„.\n\n'
-    +'Ø£Ø¬Ø¨ Ø¨Ù‡Ø°Ø§ Ø§Ù„Ø´ÙƒÙ„ Ø¨Ø§Ù„Ø¶Ø¨Ø·:\n\nROOT_CAUSE:\n(Ø³Ø¨Ø¨Ø§Ù† Ø£Ùˆ Ø«Ù„Ø§Ø«Ø© Ø£Ø³Ø·Ø± ØªØ´Ø±Ø­ Ø§Ù„Ø³Ø¨Ø¨ Ø§Ù„Ø¬Ø°Ø±ÙŠ Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠØŒ Ø¨Ø¯Ù„ÙŠÙ„ Ù…Ù† Ø§Ù„ÙƒÙˆØ¯ Ù†ÙØ³Ù‡)\n\n'
-    +'Ø«Ù… Ù„ÙƒÙ„ Ù…Ù„Ù ØªØ­ØªØ§Ø¬ ØªØ¹Ø¯ÙŠÙ„Ù‡ ÙÙ‚Ø· (Ù„Ø§ ØªÙƒØ±Ø± Ù…Ù„ÙØ§Øª Ù…Ø§ ØºÙŠÙ‘Ø±ØªÙ‡Ø§):\nFILE: (Ø§Ø³Ù… Ø§Ù„Ù…Ù„Ù Ø¨Ø§Ù„Ø¶Ø¨Ø· ÙƒÙ…Ø§ ÙˆØ±Ø¯ Ø£Ø¹Ù„Ø§Ù‡)\n```\n(Ø§Ù„Ù…Ù„Ù ÙƒØ§Ù…Ù„Ù‹Ø§ Ø¨Ø¹Ø¯ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„ØŒ Ù…Ù† Ø£ÙˆÙ„ Ø³Ø·Ø± Ù„Ø¢Ø®Ø± Ø³Ø·Ø±ØŒ Ø¨Ø¯ÙˆÙ† Ø§Ø®ØªØµØ§Ø±)\n```\n\n'
-    +'Ù‚ÙˆØ§Ø¹Ø¯ ØµØ§Ø±Ù…Ø©: 1) Ù„Ø§ ØªØ­Ø°Ù Ø£ÙŠ Ø¯Ø§Ù„Ø©/id Ø¥Ù„Ø§ Ù„Ùˆ Ø¶Ø±ÙˆØ±ÙŠ Ù„Ù„Ø­Ù„ 2) Ø¹Ø¯Ù‘Ù„ Ø£Ù‚Ù„ Ø¹Ø¯Ø¯ Ù…Ù„ÙØ§Øª Ù…Ù…ÙƒÙ† 3) Ù„Ø§ ØªÙƒØªØ¨ Ø£ÙŠ Ø´ÙŠØ¡ Ø®Ø§Ø±Ø¬ ROOT_CAUSE ÙˆÙƒØªÙ„ FILE.';
-  return await callAI([{role:'user',content:prompt}],{maxAttempts:4,onStatus:s=>{$('fxStatus').textContent='â³ '+s}});
-}
-
-function fxParseMultiFile(reply){
-  const rootMatch=reply.match(/ROOT_CAUSE:\s*([\s\S]*?)(?=FILE:|$)/i);
-  const rootCause=rootMatch?rootMatch[1].trim():'(Ù„Ù… ÙŠÙˆØ¶Ø­ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø³Ø¨Ø¨ Ø§Ù„Ø¬Ø°Ø±ÙŠ Ø¨Ø´ÙƒÙ„ Ù…Ù†ÙØµÙ„)';
-  const fileBlocks=[...reply.matchAll(/FILE:\s*([^\n]+)\n```[a-z]*\s*\n?([\s\S]*?)```/gi)];
-  const files={};
-  fileBlocks.forEach(m=>{ const name=m[1].trim(); if(FX_FILES.includes(name)) files[name]=m[2].trim(); });
-  return {rootCause, files};
-}
-
-async function fxRun(){
-  const token=fxTok(), problem=$('fxCmd').value.trim();
-  const st=$('fxStatus'), pv=$('fxPreview'), commitBtn=$('fxCommitBtn');
-  commitBtn.style.display='none'; pv.style.display='none'; pv.innerHTML=''; fxBatch=[];
-
-  if(!token){st.style.color='var(--accent-rose)';st.textContent='âœ— Ø§Ù„ØµÙ‚ Ù…ÙØªØ§Ø­ GitHub Ø£ÙˆÙ„Ù‹Ø§';return}
-  if(!problem){st.style.color='var(--accent-rose)';st.textContent='âœ— Ø§ÙƒØªØ¨ ÙˆØµÙ Ø§Ù„Ù…Ø´ÙƒÙ„Ø© Ø§Ù„Ù„ÙŠ ØªÙˆØ§Ø¬Ù‡Ù‡Ø§';return}
-
-  st.style.color='var(--accent-amber)'; st.textContent='â³ 1/5 â€” ØªØ­Ø¯ÙŠØ¯ Ø§Ù„Ù…Ù„ÙØ§Øª Ø°Ø§Øª Ø§Ù„Ø¹Ù„Ø§Ù‚Ø© Ø¨Ø§Ù„Ù…Ø´ÙƒÙ„Ø©â€¦';
-  let targetFiles;
-  try{ targetFiles=await fxSelectFiles(problem); }
-  catch(e){ st.style.color='var(--accent-rose)'; st.textContent='âœ— ØªØ¹Ø°Ø± ØªØ­Ø¯ÙŠØ¯ Ø§Ù„Ù…Ù„ÙØ§Øª: '+friendlyError(e); return; }
-
-  st.textContent='â³ 2/5 â€” Ø¬Ø§Ø±Ù Ù‚Ø±Ø§Ø¡Ø© '+targetFiles.length+' Ù…Ù„Ù Ù…Ù† Ø§Ù„Ù…Ø³ØªÙˆØ¯Ø¹ ('+targetFiles.join('ØŒ ')+')â€¦';
-  const filesContent={}, filesMeta={};
-  for(const f of targetFiles){
-    try{
-      const r=await fetch('https://api.github.com/repos/'+FX_REPO+'/contents/'+f,{headers:{Authorization:'Bearer '+token,'Accept':'application/vnd.github+json'}});
-      if(!r.ok){ st.style.color='var(--accent-rose)'; st.textContent='âœ— ØªØ¹Ø°Ø± Ù‚Ø±Ø§Ø¡Ø© '+f+' (HTTP '+r.status+')'; return; }
-      const meta=await r.json();
-      filesContent[f]=atob((meta.content||'').replace(/\n/g,''));
-      filesMeta[f]=meta.sha;
-    }catch(e){ st.style.color='var(--accent-rose)'; st.textContent='âœ— ØªØ¹Ø°Ø± Ø§Ù„Ø§ØªØµØ§Ù„ Ø¨Ù€ GitHub Ø¹Ù†Ø¯ Ù‚Ø±Ø§Ø¡Ø© '+f; return; }
+  clearTimeout(timer);if(signal)signal.removeEventListener('abort',onOuterAbort);
+  if(resp.ok){
+    if(onChunk)return streamResponse(resp,onChunk);
+    const data=await resp.json().catch(()=>null);
+    const text=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+    if(!text||!text.trim())throw new AIError(0,'وصل رد فارغ من المحرك.');
+    if(isErrorLike(text))throw new AIError(429,'حصة الاستخدام المؤقتة مشغولة.');
+    return text.trim();
   }
-
-  st.textContent='â³ 3/5 â€” Ø¬Ø§Ø±Ù Ø§Ù„ØªØ´Ø®ÙŠØµ Ø§Ù„Ø¬Ø°Ø±ÙŠ ÙˆØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø­Ù„â€¦';
-  let reply;
-  try{ reply=await fxDiagnoseAndFix(problem, filesContent); }
-  catch(e){ st.style.color='var(--accent-rose)'; st.textContent='âœ— ØªØ¹Ø°Ø± ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø­Ù„: '+friendlyError(e); return; }
-
-  const {rootCause, files:patchedFiles}=fxParseMultiFile(reply);
-  if(!Object.keys(patchedFiles).length){
-    st.style.color='var(--accent-rose)'; st.textContent='âœ— Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ù„Ù… ÙŠÙØ±Ø¬Ø¹ Ø£ÙŠ Ù…Ù„Ù Ù…Ø¹Ø¯Ù‘Ù„ â€” Ø£Ø¹Ø¯ ØµÙŠØ§ØºØ© ÙˆØµÙ Ø§Ù„Ù…Ø´ÙƒÙ„Ø© Ø¨ØªÙØµÙŠÙ„ Ø£ÙƒØ«Ø±';
-    pv.style.display='block'; pv.innerHTML='<div class="fx-plan"><strong>Ø§Ù„Ø³Ø¨Ø¨ Ø§Ù„Ù…Ø°ÙƒÙˆØ±:</strong><br>'+escapeHtmlText(rootCause)+'</div>';
-    return;
-  }
-
-  st.textContent='â³ 4/5 â€” Ø§Ù„ØªØ­Ù‚Ù‚ Ø§Ù„Ø¢Ù„ÙŠ Ù…Ù† ÙƒÙ„ Ù…Ù„Ù (ØµØ­Ø© Ø§Ù„ÙƒÙˆØ¯ + Ø¨Ù‚Ø§Ø¡ Ø§Ù„Ø¯ÙˆØ§Ù„)â€¦';
-  let reportHtml='<div class="fx-plan"><strong>ðŸ§­ Ø§Ù„Ø³Ø¨Ø¨ Ø§Ù„Ø¬Ø°Ø±ÙŠ Ø§Ù„Ù…ÙƒØªØ´Ù:</strong><br>'+escapeHtmlText(rootCause).replace(/\n/g,'<br>')+'</div>';
-  let anyPassed=false;
-
-  for(const [file, patched] of Object.entries(patchedFiles)){
-    const original=filesContent[file];
-    if(!patched || patched.length<original.length*0.5){
-      reportHtml+='<div class="fx-block" style="color:var(--accent-rose);margin-top:14px"><strong>ðŸš« '+file+' â€” Ø±ÙÙØ¶ (Ø§Ù„Ù…Ù„Ù Ø§Ù†Ø¨ØªØ±: '+patched.length+' Ù…Ù† '+original.length+' Ø­Ø±ÙÙ‹Ø§)</strong></div>';
-      continue;
-    }
-    const synErrors=fxCheckSyntax(file, patched);
-    const preserve=fxCheckPreservation(original, patched);
-    const blocking = synErrors.length>0 || preserve.missingFns.length>0;
-    const diff=fxLineDiff(original, patched);
-
-    reportHtml+='<div style="margin-top:16px;border-top:1px solid rgba(255,255,255,.12);padding-top:10px">'
-      +'<strong>ðŸ“„ '+file+' â€” '+(blocking?'<span style="color:var(--accent-rose)">ÙØ´Ù„ Ø§Ù„ØªØ­Ù‚Ù‚ âœ—</span>':'<span style="color:var(--accent-emerald)">Ø§Ø¬ØªØ§Ø² Ø§Ù„ØªØ­Ù‚Ù‚ âœ“</span>')+'</strong>';
-    if(synErrors.length) reportHtml+='<div style="color:var(--accent-rose);margin-top:6px">Ø£Ø®Ø·Ø§Ø¡: '+synErrors.map(escapeHtmlText).join('<br>')+'</div>';
-    if(preserve.missingFns.length) reportHtml+='<div style="color:var(--accent-rose);margin-top:6px">Ø¯ÙˆØ§Ù„ Ø§Ø®ØªÙØª: '+preserve.missingFns.join(', ')+'</div>';
-    if(preserve.missingIds.length) reportHtml+='<div style="color:var(--accent-amber);margin-top:6px">âš  Ù…Ø¹Ø±Ù‘ÙØ§Øª id Ø§Ø®ØªÙØª (Ø±Ø§Ø¬Ø¹Ù‡Ø§ ÙŠØ¯ÙˆÙŠÙ‹Ø§): '+preserve.missingIds.join(', ')+'</div>';
-    reportHtml+='<div class="fx-diff-box">'+fxRenderDiff(diff)+'</div></div>';
-
-    if(!blocking){
-      anyPassed=true;
-      fxBatch.push({file, content:patched, sha:filesMeta[file], message:'fix-engine: '+problem.slice(0,80), passed:true});
+  let errMsg='HTTP '+resp.status;
+  try{const j=await resp.json();const e=j.error;errMsg=(typeof e==='string'?e:(e&&e.message)||errMsg)}catch{}
+  throw new AIError(resp.status,errMsg);
+}
+const RETRY_DELAYS=[4000,7000,10000,15000,20000,25000,30000,40000];
+async function callWithRetries(messages,opts,engine){
+  const signal=opts.signal||null,onChunk=opts.onChunk||null,onStatus=opts.onStatus||null;
+  const maxAttempts=opts.maxAttempts!==undefined?opts.maxAttempts:8;
+  const withSystem=messages[0]&&messages[0].role==='system'?messages:[{role:'system',content:SYSTEM_PROMPT},...messages];
+  let lastErr=null;
+  for(let attempt=1;attempt<=maxAttempts;attempt++){
+    try{const text=await aiCallOnce(withSystem,signal,onChunk,engine);if(onStatus)onStatus(null);return text}
+    catch(err){
+      lastErr=err;
+      if(err.name==='AbortError')throw err;
+      const retryable=err.status===429||err.status===502||err.status===503||err.status===504||err.status===0;
+      if(!retryable||attempt>=maxAttempts)break;
+      const delay=RETRY_DELAYS[Math.min(attempt-1,RETRY_DELAYS.length-1)];
+      if(onStatus){
+        await new Promise(resolve=>{let left=delay/1000;
+          onStatus('الخدمة مشغولة — إعادة تلقائية بعد '+left+' ث… (محاولة '+attempt+'/'+maxAttempts+')');
+          const timer=setInterval(()=>{left--;if(left<=0){clearInterval(timer);onStatus('إعادة المحاولة الآن…');resolve()}else onStatus('الخدمة مشغولة — إعادة تلقائية بعد '+left+' ث… (محاولة '+attempt+'/'+maxAttempts+')')},1000);
+          if(signal)signal.addEventListener('abort',()=>{clearInterval(timer);resolve()})});
+      }else await new Promise(r=>setTimeout(r,delay));
+      if(signal&&signal.aborted)throw new DOMException('aborted','AbortError');
     }
   }
-
-  pv.style.display='block'; pv.innerHTML=reportHtml;
-  st.textContent='â³ 5/5 â€” Ø¬Ø§Ù‡Ø² Ù„Ù„Ù…Ø±Ø§Ø¬Ø¹Ø©';
-
-  if(!anyPassed){
-    st.style.color='var(--accent-rose)'; st.textContent='âœ— ÙˆÙ„Ø§ Ù…Ù„Ù Ø§Ø¬ØªØ§Ø² Ø§Ù„ØªØ­Ù‚Ù‚ Ø§Ù„Ø¢Ù„ÙŠ â€” Ù„Ù† ÙŠØ¸Ù‡Ø± Ø²Ø± Ø§Ù„Ù†Ø´Ø±. Ø±Ø§Ø¬Ø¹ Ø§Ù„Ø£Ø®Ø·Ø§Ø¡ Ø£Ø¹Ù„Ø§Ù‡';
-    return;
+  throw lastErr;
+}
+async function callAI(messages,opts={}){
+  const st=getEngineState();
+  if(st.id!=='pollinations'){
+    try{return await callWithRetries(messages,opts,st)}
+    catch(err){
+      if(err.name==='AbortError')throw err;
+      if(opts.onStatus)opts.onStatus('تعذر محرك '+engineLabel()+' — التحول التلقائي إلى المحرك المجاني…');
+      return await callWithRetries(messages,opts,{id:'pollinations',key:'',model:'openai'});
+    }
   }
-  st.style.color='var(--accent-emerald)';
-  st.textContent='âœ“ '+fxBatch.length+' Ù…Ù† '+Object.keys(patchedFiles).length+' Ù…Ù„Ù Ø§Ø¬ØªØ§Ø² Ø§Ù„ØªØ­Ù‚Ù‚ â€” Ø±Ø§Ø¬Ø¹ Ø§Ù„ÙØ±Ù‚ Ø«Ù… Ø£ÙƒÙ‘Ø¯ Ø§Ù„Ù†Ø´Ø± (Ø§Ù„Ù…Ù„ÙØ§Øª Ø§Ù„ÙØ§Ø´Ù„Ø© Ù„Ù† ØªÙÙ†Ø´Ø± ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§)';
-  commitBtn.style.display='inline-block'; commitBtn.disabled=false;
+  return await callWithRetries(messages,opts,st);
 }
 
-async function fxCommit(){
-  if(!fxBatch.length)return;
-  const st=$('fxStatus'), token=fxTok();
-  let okCount=0;
-  for(const item of fxBatch){
-    st.style.color='var(--accent-amber)'; st.textContent='â³ Ø¬Ø§Ø±Ù Ù†Ø´Ø± '+item.file+'â€¦';
-    try{
-      const b64=btoa(unescape(encodeURIComponent(item.content)));
-      const r=await fetch('https://api.github.com/repos/'+FX_REPO+'/contents/'+item.file,{
-        method:'PUT',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
-        body:JSON.stringify({message:item.message,content:b64,sha:item.sha})});
-      if(r.ok) okCount++;
-      else{ let d='';try{d=(await r.json()).message||''}catch{}; st.style.color='var(--accent-rose)'; st.textContent='âœ— ÙØ´Ù„ Ù†Ø´Ø± '+item.file+' (HTTP '+r.status+') '+d; return; }
-    }catch(e){ st.style.color='var(--accent-rose)'; st.textContent='âœ— ØªØ¹Ø°Ø± Ø§Ù„Ø§ØªØµØ§Ù„ Ø¨Ù€ GitHub Ø£Ø«Ù†Ø§Ø¡ Ù†Ø´Ø± '+item.file; return; }
-  }
-  st.style.color='var(--accent-emerald)';
-  st.textContent='âœ… ØªÙ… Ù†Ø´Ø± '+okCount+' Ù…Ù„Ù Ø¨Ù†Ø¬Ø§Ø­! GitHub Pages Ø³ÙŠØ­Ø¯Ù‘Ø« Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø®Ù„Ø§Ù„ Ø¯Ù‚ÙŠÙ‚ØªÙŠÙ†';
-  fxBatch=[]; $('fxCommitBtn').style.display='none';
+/* ---------- speech ---------- */
+function speakText(text,voiceURI,rate){
+  try{
+    if(!('speechSynthesis' in window))return false;
+    speechSynthesis.cancel();
+    const clean=String(text).replace(/```[\s\S]*?```/g,' مقطع كود ').replace(/[#*`_>|]/g,'').replace(/\[(.*?)\]\(.*?\)/g,'$1').slice(0,3000);
+    const u=new SpeechSynthesisUtterance(clean);u.lang='ar-SA';u.rate=rate||1;
+    const voices=speechSynthesis.getVoices();
+    if(voiceURI){const v=voices.find(v=>v.voiceURI===voiceURI);if(v){u.voice=v;u.lang=v.lang}}
+    else{const v=voices.find(v=>v.lang&&v.lang.startsWith('ar'));if(v)u.voice=v}
+    speechSynthesis.speak(u);return true;
+  }catch{return false}
+}
+function stopSpeaking(){try{speechSynthesis.cancel()}catch{}}
+function createRecognizer(lang){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return null;
+  const rec=new SR();rec.lang=lang||'ar-SA';rec.interimResults=true;rec.continuous=true;rec.maxAlternatives=1;
+  return rec;
 }
 
-function initFixUI(){
-  if(!$('fxRunBtn'))return;
-  const saved=fxTok(); if(saved)$('fxToken').value=saved;
-  $('fxToken').addEventListener('change',()=>lsSet('khaled_gh_token',$('fxToken').value.trim()));
-
-  const sel=$('fxFile');
-  if(sel){
-    sel.innerHTML='';
-    const autoOpt=document.createElement('option'); autoOpt.value='__auto__'; autoOpt.textContent='ðŸ” ØªØ­Ø¯ÙŠØ¯ ØªÙ„Ù‚Ø§Ø¦ÙŠ Ø­Ø³Ø¨ Ø§Ù„Ù…Ø´ÙƒÙ„Ø© (Ù…ÙˆØµÙ‰ Ø¨Ù‡)';
-    sel.appendChild(autoOpt);
-    FX_FILES.forEach(f=>{const o=document.createElement('option'); o.value=f; o.textContent=f; sel.appendChild(o)});
-  }
-  const cmdBox=$('fxCmd');
-  if(cmdBox) cmdBox.placeholder='ØµÙ Ù…Ø´ÙƒÙ„ØªÙƒ Ø¨Ø§Ù„ØªÙØµÙŠÙ„ â€” Ù…Ø«Ø§Ù„: "Ø§Ù„Ø´Ø§Øª Ù…Ø§ ÙŠØ±Ø¯ ÙˆÙŠÙ‚ÙˆÙ„ ØªØ¹Ø°Ø± Ø§Ù„Ø§ØªØµØ§Ù„ Ø¨Ù…Ø­Ø±Ùƒ Groq" â€” Ø§Ù„Ù…Ø­Ø±Ùƒ ÙŠØ­Ø¯Ø¯ Ø¨Ù†ÙØ³Ù‡ Ø£ÙŠ Ø§Ù„Ù…Ù„ÙØ§Øª ØªØ­ØªØ§Ø¬ ÙØ­Øµ';
-
-  $('fxRunBtn').addEventListener('click',fxRun);
-  $('fxCommitBtn').addEventListener('click',fxCommit);
-
-  if(!$('fxDiffStyles')){
-    const style=document.createElement('style'); style.id='fxDiffStyles';
-    style.textContent='.fx-diff-box{max-height:320px;overflow:auto;font-family:monospace;font-size:0.8rem;background:rgba(0,0,0,0.25);border-radius:8px;padding:10px;margin-top:6px}'
-      +'.fx-diff-add{color:#4ade80;white-space:pre-wrap}.fx-diff-del{color:#f87171;white-space:pre-wrap;text-decoration:line-through;opacity:.75}'
-      +'.fx-plan{background:rgba(255,255,255,0.04);border-radius:8px;padding:10px;font-size:0.85rem}';
-    document.head.appendChild(style);
+/* ---------- connection checker (engine-aware) ---------- */
+async function checkConnection(){
+  const ind=$('connIndicator'),txt=$('connText');if(!ind)return;
+  try{
+    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),10000);
+    const resp=await aiCallOnce([{role:'user',content:'ping'}],ctrl.signal,null);
+    clearTimeout(t);
+    ind.className='conn-indicator conn-ok';txt.textContent='المحرك يعمل';
+  }catch(err){
+    if(err.status===429){ind.className='conn-indicator conn-ok';txt.textContent='المحرك متصل (مشغول)'}
+    else if(err.status===401||err.status===403){ind.className='conn-indicator conn-bad';txt.textContent='المفتاح غير صالح'}
+    else{ind.className='conn-indicator conn-bad';txt.textContent='تعذر الوصول للمحرك'}
   }
 }
