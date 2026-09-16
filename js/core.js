@@ -5,7 +5,7 @@ const SYSTEM_PROMPT='أنت "KHALED AI"، مساعد ذكي عربي محترف 
 
 /* ============ عشرة محركات ذكاء ============ */
 const ENGINES={
-pollinations:{name:'Pollinations — مجاني بدون مفتاح',keyless:true,url:'https://text.pollinations.ai/openai',models:['openai'],hint:'يعمل فورًا بدون أي مفتاح. حد الخدمة المجانية: طلب واحد في اللحظة لكل مستخدم، والمنصة تعيد المحاولة تلقائيًا عند الانشغال.'},
+pollinations:{name:'Pollinations — مجاني بدون مفتاح',keyless:true,url:'https://text.pollinations.ai/openai',models:['openai'],hint:'يعمل فورًا بدون مفتاح — لكنه خدمة مجانية مزدحمة (طلب واحد في اللحظة لكل IP). إذا كنت على إنترنت مشترك (جوال/مقاهي) قد تشارك عنوانك مع مئات المستخدمين فيبطئ الرد أو يفشل — الحل الدائم والأسرع: مفتاح Groq المجاني (30 ثانية).'},
 groq:{name:'Groq — أسرع محرك في العالم',url:'https://api.groq.com/openai/v1/chat/completions',models:['llama-3.3-70b-versatile','openai/gpt-oss-120b','qwen/qwen3-32b','deepseek-r1-distill-llama-70b','gemma2-9b-it'],hint:'مفتاح مجاني 100% من: console.groq.com/keys — سرعة خرافية وحدود يومية سخية.'},
 gemini:{name:'Google Gemini',url:'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',models:['gemini-2.0-flash','gemini-2.5-flash','gemini-2.5-pro'],hint:'مفتاح مجاني 100% من: aistudio.google.com/apikey — من جوجل مباشرة وبحدود يومية ممتازة.'},
 openrouter:{name:'OpenRouter — عشرات النماذج المجانية',url:'https://openrouter.ai/api/v1/chat/completions',models:['deepseek/deepseek-chat-v3.1:free','qwen/qwen3-235b-a22b:free','meta-llama/llama-3.3-70b-instruct:free','google/gemini-2.0-flash-exp:free','mistralai/mistral-small-3.1-24b-instruct:free'],hint:'مفتاح من: openrouter.ai/settings/keys ثم اختر أي موديل ينتهي بـ ":free" — يعمل مجانًا.'},
@@ -69,7 +69,7 @@ async function aiCallOnce(messages,signal,onChunk,forcedEngine){
   const url=st.id==='custom'?st.url:cfg.url;
   if(!url)throw new AIError(0,'أدخل رابط المحرك المخصص في الإعدادات أولًا.');
   const headers={'Content-Type':'application/json'};
-  if(!cfg.keyless){if(!st.key)throw new AIError(401,'هذا المحرك يحتاج مفتاح API — أضفه من إعدادات المحركات (⚙).');headers.Authorization='Bearer '+st.key}
+  if(!cfg.keyless){st.key=(st.key||'').trim();if(!st.key)throw new AIError(401,'هذا المحرك يحتاج مفتاح API — أضفه من إعدادات المحركات (⚙).');headers.Authorization='Bearer '+st.key}
   const model=st.model||cfg.models[0]||'openai';
   const resp=await fetch(url,{method:'POST',headers,body:JSON.stringify({model,messages,stream:!!onChunk}),signal});
   if(resp.ok){
@@ -84,10 +84,10 @@ async function aiCallOnce(messages,signal,onChunk,forcedEngine){
   try{const j=await resp.json();const e=j.error;errMsg=(typeof e==='string'?e:(e&&e.message)||errMsg)}catch{}
   throw new AIError(resp.status,errMsg);
 }
-const RETRY_DELAYS=[4000,8000,14000,22000,30000];
+const RETRY_DELAYS=[4000,7000,10000,15000,20000,25000,30000,40000];
 async function callWithRetries(messages,opts,engine){
   const signal=opts.signal||null,onChunk=opts.onChunk||null,onStatus=opts.onStatus||null;
-  const maxAttempts=opts.maxAttempts!==undefined?opts.maxAttempts:5;
+  const maxAttempts=opts.maxAttempts!==undefined?opts.maxAttempts:8;
   const withSystem=messages[0]&&messages[0].role==='system'?messages:[{role:'system',content:SYSTEM_PROMPT},...messages];
   let lastErr=null;
   for(let attempt=1;attempt<=maxAttempts;attempt++){
