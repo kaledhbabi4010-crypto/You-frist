@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KHALED AI — منصة عربية ذكية مجانية بالكامل</title>
-<meta name="description" content="KHALED AI: مساعد ذكي، مولد صور، بايثون في المتصفح، مترجم، بحث بالمراجع، أوقات صلاة، طقس، عملات رقمية، وأدوات يومية — 17 أداة مجانية بدون تسجيل.">
+<meta name="description" content="KHALED AI: مساعد ذكي، مولد صور، بايثون في المتصفح، مترجم، بحث بالمراجع، أوقات صلاة، طقس، عملات رقمية، وأدوات يومية — 20 أداة خارقة و10 محركات ذكاء — بدون تسجيل.">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -20,6 +20,7 @@
 </div>
 <div class="header-actions">
 <button class="btn-home" id="homeBtn"><i class="fa-solid fa-house me-1"></i>الرئيسية</button>
+<button class="btn-home" id="settingsBtn" title="إعدادات المحركات (10 محركات ذكاء)"><i class="fa-solid fa-gears me-1"></i>المحركات</button>
 <div id="connIndicator" class="conn-indicator conn-checking"><span class="pulse-dot"></span><span id="connText">تحقق…</span></div>
 </div>
 </div>
@@ -30,7 +31,7 @@
 <div class="home-hero">
 <div class="hero-icon"><i class="fa-solid fa-bolt"></i></div>
 <h1>KHALED AI</h1>
-<p>منصة عربية ذكية متكاملة — 17 أداة خارقة تعمل كلها مباشرة من متصفحك:<br>ذكاء اصطناعي، توليد صور، برمجة، بحث بالمراجع، وأدوات يومية.</p>
+<p>منصة عربية ذكية متكاملة — 20 أداة خارقة و10 محركات ذكاء تعمل كلها مباشرة من متصفحك:<br>ذكاء اصطناعي بمحركات مجانية، توليد صور، بناء تطبيقات، بحث عميق، وأدوات يومية.</p>
 <div class="free-badge">✓ مجاني 100% • بدون تسجيل • بدون مفاتيح • بدون خوادم</div>
 </div>
 <div class="cat-title">🤖 الذكاء الاصطناعي<span class="cat-line"></span></div>
@@ -62,6 +63,13 @@
 <div class="tool-card" data-view="qr" style="--tc:#38bdf8"><div class="tc-icon"><i class="fa-solid fa-qrcode"></i></div><div class="tc-title">مولد QR</div><div class="tc-desc">ولّد رمز QR لأي نص أو رابط وحمّله كصورة عالية الجودة.</div></div>
 <div class="tool-card" data-view="password" style="--tc:#f43f5e"><div class="tc-icon"><i class="fa-solid fa-key"></i></div><div class="tc-title">كلمات السر</div><div class="tc-desc">كلمات سر خرافية بتشفير آمن من متصفحك مع مقياس قوة.</div></div>
 </div>
+<div class="cat-title">🚀 المحركات الخارقة<span class="cat-line"></span></div>
+<div class="tools-grid">
+<div class="tool-card" data-view="settings" style="--tc:#f59e0b"><div class="tc-icon"><i class="fa-solid fa-gears"></i></div><div class="tc-title">إعدادات المحركات</div><div class="tc-desc">10 محركات ذكاء: Groq وGemini وDeepSeek وQwen وOpenRouter — مفاتيح مجانية.</div></div>
+<div class="tool-card" data-view="deepsearch" style="--tc:#38bdf8"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-radar"></i></div><div class="tc-title">البحث العميق</div><div class="tc-desc">بحث شامل بالعربية والإنجليزية معًا + تحليل ذكي شامل للمراجع.</div></div>
+<div class="tool-card" data-view="appbuilder" style="--tc:#10b981"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="tc-title">منشئ التطبيقات</div><div class="tc-desc">صِف تطبيقك بالكلام واحصل على مشروع كامل جاهز بمعاينة حية وتحميل.</div></div>
+<div class="tool-card" data-view="jobs" style="--tc:#c084fc"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-briefcase"></i></div><div class="tc-title">مركز الوظائف</div><div class="tc-desc">سيرة ذاتية احترافية + خطاب تقديم + تدريب على المقابلات — جاهز للطباعة.</div></div>
+</div>
 <div class="foot-note">كل الأدوات تعمل مجانًا من متصفحك مباشرة — المحركات: Pollinations (AI والصور) • Pyodide (بايثون) • Open-Meteo (طقس) • CoinGecko (عملات) • Aladhan (مواقيت) • ويكيبيديا (بحث)<br>لا نطلب تسجيلًا ولا نخزن بياناتك على أي خادم — كل شيء يبقى في متصفحك.</div>
 </section>
 
@@ -91,7 +99,8 @@
 </div>
 </form>
 <div class="input-meta">
-<span><i class="fa-solid fa-shield-halved me-1"></i> محرك مجاني حقيقي — مع إعادة محاولة تلقائية عند الانشغال</span>
+<span><i class="fa-solid fa-shield-halved me-1"></i> محرك مجاني حقيقي — إعادة محاولة تلقائية عند الانشغال</span>
+<span class="engine-tag" id="engineTag"></span>
 <span id="charCount">0 / 4000</span>
 </div>
 </div>
@@ -411,6 +420,141 @@
 </div>
 </section>
 
+<!-- ============ SETTINGS (10 ENGINES) ============ -->
+<section class="app-view" id="view-settings">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-gears"></i>إعدادات المحركات — 10 محركات ذكاء</h2><p>المحرك الافتراضي (Pollinations) مجاني بدون مفتاح. أضف مفتاحك المجاني من Groq أو Gemini لتقوية كل أدوات المنصة فورًا.</p></div>
+<div class="tool-card-box">
+<div class="set-row"><label class="f-label">المحرك</label>
+<select class="tool-input" id="setEngine"></select>
+<div class="set-hint" id="setHint"></div></div>
+<div class="set-row"><label class="f-label">مفتاح API (يبقى في متصفحك فقط — لا يُرسل لأي خادم غير مزود الخدمة)</label>
+<input type="password" class="tool-input" id="setKey" placeholder="الصق المفتاح هنا…" style="direction:ltr"></div>
+<div class="set-row"><label class="f-label">الموديل (اتركه فارغًا للافتراضي)</label>
+<input class="tool-input" id="setModel" list="setModelList" placeholder="اسم الموديل" style="direction:ltr">
+<datalist id="setModelList"></datalist></div>
+<div class="set-row" id="setUrlRow" style="display:none"><label class="f-label">رابط الخدمة (متوافقة مع OpenAI، ينتهي بـ /chat/completions)</label>
+<input class="tool-input" id="setUrl" placeholder="https://example.com/v1/chat/completions" style="direction:ltr"></div>
+<div class="preset-row" style="margin-top:0.6rem">
+<button class="tool-btn green" id="setSaveBtn"><i class="fa-solid fa-floppy-disk me-1"></i>حفظ وتفعيل</button>
+<button class="tool-btn amber" id="setTestBtn"><i class="fa-solid fa-plug-circle-check me-1"></i>اختبار الاتصال</button>
+<button class="ghost-btn" id="setResetBtn"><i class="fa-solid fa-rotate-left me-1"></i>عودة للمجاني</button>
+</div>
+<div style="margin-top:0.8rem;font-size:0.85rem" id="setTestResult"></div>
+</div>
+<div class="foot-note">🔒 المفتاح يُخزن في متصفحك فقط (localStorage) ولا يمر عبر أي وسيط — يذهب مباشرة من متصفحك إلى مزود الخدمة.<br>🎁 كل أدوات الذكاء في المنصة (المساعد، المترجم، الملخص، البحث، منشئ التطبيقات، الوظائف) تستخدم المحرك المفعّل تلقائيًا — وإذا فشل محركك فإن المنصة تتحول تلقائيًا للمحرك المجاني بدون مفتاح.</div>
+</div>
+</section>
+
+<!-- ============ DEEP SEARCH ============ -->
+<section class="app-view" id="view-deepsearch">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-radar"></i>البحث العميق الشامل</h2><p>بحث متزامن في ويكيبيديا العربية والإنجليزية معًا + تحليل ذكي يجمع المراجع في تقرير واحد موثق.</p></div>
+<div class="tool-card-box">
+<div class="tool-input-row">
+<input class="tool-input" id="dsQuery" placeholder="مثال: أزمة الطاقة العالمية، الذكاء الاصطناعي في الطب…" autocomplete="off">
+<button class="tool-btn" id="dsBtn"><i class="fa-solid fa-radar me-1"></i>ابحث بعمق</button>
+</div>
+</div>
+<div class="tool-card-box" id="dsSources" style="display:none"></div>
+<div style="text-align:center;margin:0.6rem 0"><button class="tool-btn purple" id="dsAnalyzeBtn" style="display:none"><i class="fa-solid fa-brain me-1"></i>حلّل المراجع الـ <span id="dsCount">0</span> بالذكاء الاصطناعي</button></div>
+<div class="ai-summary" id="dsAI" style="display:none"></div>
+</div>
+</section>
+
+<!-- ============ APP BUILDER ============ -->
+<section class="app-view" id="view-appbuilder">
+<div class="tool-wrap wide">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-screwdriver-wrench"></i>منشئ التطبيقات والبرامج</h2><p>صِف فكرتك بالكلام — أبنيها مشروعًا كاملًا بمعاينة حية وتحميل ملف جاهز.</p></div>
+<div class="tool-card-box">
+<label class="f-label">صِف ما تريد بناءه (كلما دقّقت وصفك خرج المشروع أفضل)</label>
+<textarea class="tool-input" id="abDesc" placeholder="مثال: لعبة أفعى عربية بنتيجة ومستويات صعوبة، أو موقع حاسبة سعرات يومية…" style="min-height:100px"></textarea>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.7rem">
+<div><label class="f-label">نوع المشروع</label>
+<select class="tool-input" id="abType">
+<option value="html">تطبيق ويب كامل (HTML واحد)</option>
+<option value="python">سكربت بايثون كامل</option>
+</select></div>
+<div style="display:flex;align-items:flex-end"><button class="tool-btn green" id="abGenBtn" style="width:100%"><i class="fa-solid fa-hammer me-1"></i>ابنِ الآن</button></div>
+</div>
+<div class="py-status" id="abStatus"></div>
+</div>
+<div class="tool-card-box" id="abPreviewBox" style="display:none">
+<label class="f-label">🚀 معاينة حية للتطبيق المبني</label>
+<iframe id="abPreview" sandbox="allow-scripts allow-modals"></iframe>
+</div>
+<div class="tool-card-box">
+<label class="f-label">الكود المصدري</label>
+<pre style="max-height:420px"><code id="abCode">(سيظهر الكود الكامل هنا بعد البناء)</code></pre>
+<div class="preset-row" id="abActions" style="display:none">
+<button class="ghost-btn" id="abDownloadBtn"><i class="fa-solid fa-download me-1"></i>تحميل الملف</button>
+<button class="ghost-btn" id="abCopyBtn"><i class="fa-regular fa-copy me-1"></i>نسخ الكود</button>
+<button class="ghost-btn" id="abRunPyBtn" style="display:none"><i class="fa-brands fa-python me-1"></i>شغّله في أداة بايثون</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ JOBS CENTER ============ -->
+<section class="app-view" id="view-jobs">
+<div class="tool-wrap">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-briefcase"></i>مركز تجهيز الوظائف</h2><p>سيرة ذاتية + خطاب تقديم + تدريب مقابلات — كل ما تحتاجه للتقديم باحترافية.</p></div>
+<div class="preset-row" style="margin-bottom:1rem" id="jobTabs">
+<button class="jtab-btn active" data-jtab="jtab-cv"><i class="fa-solid fa-file-lines me-1"></i>السيرة الذاتية</button>
+<button class="jtab-btn" data-jtab="jtab-letter"><i class="fa-solid fa-envelope me-1"></i>خطاب التقديم</button>
+<button class="jtab-btn" data-jtab="jtab-interview"><i class="fa-solid fa-comments me-1"></i>تدريب المقابلات</button>
+</div>
+<div class="jtab-pane show" id="jtab-cv">
+<div class="tool-card-box">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem">
+<input class="tool-input" id="cvName" placeholder="الاسم الكامل">
+<input class="tool-input" id="cvTitle" placeholder="المسمى الوظيفي المستهدف">
+</div>
+<textarea class="tool-input" id="cvExp" placeholder="خبراتك العملية (سنوات، شركات، إنجازات…)" style="min-height:70px;margin-top:0.6rem"></textarea>
+<textarea class="tool-input" id="cvEdu" placeholder="التعليم والشهادات" style="min-height:60px;margin-top:0.6rem"></textarea>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.6rem">
+<input class="tool-input" id="cvSkills" placeholder="مهاراتك (مفصولة بفواصل)">
+<input class="tool-input" id="cvLangs" placeholder="اللغات ومستواها">
+</div>
+<div class="preset-row" style="margin-top:0.8rem">
+<button class="tool-btn purple" id="cvGenBtn"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>ولّد السيرة الذاتية</button>
+<button class="ghost-btn" id="cvPrintBtn" style="display:none"><i class="fa-solid fa-print me-1"></i>طباعة / PDF</button>
+<button class="ghost-btn" id="cvCopyBtn" style="display:none"><i class="fa-regular fa-copy me-1"></i>نسخ</button>
+</div>
+</div>
+<div class="result-box empty" id="cvResult">ستظهر سيرتك الذاتية الاحترافية هنا</div>
+</div>
+<div class="jtab-pane" id="jtab-letter">
+<div class="tool-card-box">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem">
+<input class="tool-input" id="letterJob" placeholder="المسمى الوظيفي">
+<input class="tool-input" id="letterCompany" placeholder="اسم الشركة (اختياري)">
+</div>
+<input class="tool-input" id="letterSkills" placeholder="أهم مهاراتك التي تريد إبرازها" style="margin-top:0.6rem">
+<div class="preset-row" style="margin-top:0.8rem">
+<button class="tool-btn purple" id="letterGenBtn"><i class="fa-solid fa-envelope me-1"></i>اكتب الخطاب</button>
+<button class="ghost-btn" id="letterCopyBtn" style="display:none"><i class="fa-regular fa-copy me-1"></i>نسخ</button>
+</div>
+</div>
+<div class="result-box empty" id="letterResult">سيظهر خطاب التقديم هنا</div>
+</div>
+<div class="jtab-pane" id="jtab-interview">
+<div class="tool-card-box">
+<input class="tool-input" id="intPosition" placeholder="المسمى الوظيفي الذي ستقابلك عليه">
+<div class="preset-row" style="margin-top:0.8rem">
+<button class="tool-btn purple" id="intGenBtn"><i class="fa-solid fa-graduation-cap me-1"></i>جهّزني للمقابلة</button>
+</div>
+</div>
+<div class="result-box empty" id="intResult">ستظهر الأسئلة المتوقعة مع الإجابات النموذجية هنا</div>
+</div>
+<div class="foot-note" style="margin-top:0.8rem">🔒 ملاحظة صادقة: التقديم التلقائي على المنصات يتطلب تسجيل دخول خارجي لا يمكن لموقع مجاني آمن فعله — هذه الأداة تجهزك بكل شيء لتقدم بنفسك في دقائق.</div>
+</div>
+</section>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
@@ -420,6 +564,7 @@
 <script src="js/tools_ai.js"></script>
 <script src="js/tools_knowledge.js"></script>
 <script src="js/tools_util.js"></script>
+<script src="js/tools_pro.js"></script>
 <script>
 'use strict';
 marked.setOptions({breaks:true,mangle:false,headerIds:false});
@@ -427,6 +572,7 @@ marked.setOptions({breaks:true,mangle:false,headerIds:false});
 $$('.tool-card[data-view]').forEach(c=>c.addEventListener('click',()=>showView(c.dataset.view)));
 $('brandHome').addEventListener('click',()=>showView('home'));
 $('homeBtn').addEventListener('click',()=>showView('home'));
+$('settingsBtn').addEventListener('click',()=>showView('settings'));
 $$('button[data-home]').forEach(b=>b.addEventListener('click',()=>showView('home')));
 /* init everything */
 initChatUI();chatRenderSessions();chatRenderMessages();chatUpdateCount();
@@ -434,6 +580,7 @@ initImageUI();initTranslateUI();initSummarizerUI();initSearchUI();
 initPrayerUI();initHijriUI();initWeatherUI();initCryptoUI();
 initPythonUI();initPlaygroundUI();initDictationUI();initTTSUI();
 initQRUI();initPasswordUI();initRegexUI();initJSONUI();
+initSettingsUI();initDeepSearchUI();initAppBuilderUI();initJobsUI();updateEngineTag();
 showView('home');
 checkConnection();setInterval(checkConnection,5*60*1000);
 </script>
