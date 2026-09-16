@@ -71,7 +71,19 @@ async function aiCallOnce(messages,signal,onChunk,forcedEngine){
   const headers={'Content-Type':'application/json'};
   if(!cfg.keyless){st.key=(st.key||'').trim();if(!st.key)throw new AIError(401,'هذا المحرك يحتاج مفتاح API — أضفه من إعدادات المحركات (⚙).');headers.Authorization='Bearer '+st.key}
   const model=st.model||cfg.models[0]||'openai';
-  const resp=await fetch(url,{method:'POST',headers,body:JSON.stringify({model,messages,stream:!!onChunk}),signal});
+  const internal=new AbortController();
+  const onOuterAbort=()=>internal.abort();
+  if(signal)signal.addEventListener('abort',onOuterAbort);
+  const timer=setTimeout(()=>internal.abort(),90000);
+  let resp;
+  try{
+    resp=await fetch(url,{method:'POST',headers,body:JSON.stringify({model,messages,stream:!!onChunk}),signal:internal.signal});
+  }catch(e){
+    clearTimeout(timer);if(signal)signal.removeEventListener('abort',onOuterAbort);
+    if(signal&&signal.aborted)throw new DOMException('aborted','AbortError');
+    throw new AIError(0,'انتهت مهلة المحرك (90 ثانية) بلا رد — سيُعاد تلقائيًا');
+  }
+  clearTimeout(timer);if(signal)signal.removeEventListener('abort',onOuterAbort);
   if(resp.ok){
     if(onChunk)return streamResponse(resp,onChunk);
     const data=await resp.json().catch(()=>null);
