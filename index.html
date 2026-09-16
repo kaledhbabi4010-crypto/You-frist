@@ -68,6 +68,7 @@
 <div class="tool-card" data-view="settings" style="--tc:#f59e0b"><div class="tc-icon"><i class="fa-solid fa-gears"></i></div><div class="tc-title">إعدادات المحركات</div><div class="tc-desc">10 محركات ذكاء: Groq وGemini وDeepSeek وQwen وOpenRouter — مفاتيح مجانية.</div></div>
 <div class="tool-card" data-view="deepsearch" style="--tc:#38bdf8"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-radar"></i></div><div class="tc-title">البحث العميق</div><div class="tc-desc">بحث حقيقي في الويب كامل + ويكيبيديا بلغتين + تقرير ذكي موثق بالمصادر.</div></div>
 <div class="tool-card" data-view="appbuilder" style="--tc:#10b981"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="tc-title">منشئ التطبيقات</div><div class="tc-desc">صِف تطبيقك بالكلام واحصل على مشروع كامل جاهز بمعاينة حية وتحميل.</div></div>
+<div class="tool-card" data-view="fixit" style="--tc:#22d3ee"><div class="tc-icon"><i class="fa-solid fa-wand-magic"></i></div><div class="tc-title">محرك الإصلاح الشامل</div><div class="tc-desc">أعطِ أمرًا واحدًا فيعدّل الموقع نفسه داخل المستودع مباشرة — بمفتاحك أنت.</div></div>
 <div class="tool-card" data-view="jobs" style="--tc:#c084fc"><span class="tc-tag">AI</span><div class="tc-icon"><i class="fa-solid fa-briefcase"></i></div><div class="tc-title">مركز الوظائف</div><div class="tc-desc">سيرة ذاتية احترافية + خطاب تقديم + تدريب على المقابلات — جاهز للطباعة.</div></div>
 </div>
 <div class="foot-note">كل الأدوات تعمل مجانًا من متصفحك مباشرة — المحركات: Pollinations (AI والصور) • Pyodide (بايثون) • Open-Meteo (طقس) • CoinGecko (عملات) • Aladhan (مواقيت) • ويكيبيديا (بحث)<br>لا نطلب تسجيلًا ولا نخزن بياناتك على أي خادم — كل شيء يبقى في متصفحك.</div>
@@ -564,7 +565,35 @@
 <script src="js/tools_ai.js"></script>
 <script src="js/tools_knowledge.js"></script>
 <script src="js/tools_util.js"></script>
+<!-- ============ FIX ENGINE ============ -->
+<section class="app-view" id="view-fixit">
+<div class="tool-wrap wide">
+<div class="back-row"><button class="btn-home" data-home="1"><i class="fa-solid fa-arrow-right me-1"></i>الرئيسية</button></div>
+<div class="tool-head"><h2><i class="fa-solid fa-wand-magic"></i>محرك الإصلاح الشامل</h2><p>اكتب أمرًا واحدًا — يقرأ الملف من مستودعك، يعدّله الذكاء الاصطناعي بدقة، وينشره في المستودع. الموقع يتحدث خلال دقيقتين.</p></div>
+<div class="tool-card-box">
+<label class="f-label">مفتاح GitHub الخاص بك (صلاحية Contents: Read and write — يبقى في متصفحك، واحذفه من github.com/settings/tokens بعد الانتهاء)</label>
+<input type="password" class="tool-input" id="fxToken" placeholder="ghp_… أو github_pat_…" style="direction:ltr">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.7rem">
+<div><label class="f-label">الملف المستهدف</label><select class="tool-input" id="fxFile"></select></div>
+<div><label class="f-label">&nbsp;</label><button class="tool-btn" id="fxRunBtn" style="width:100%"><i class="fa-solid fa-bolt me-1"></i>نفّذ الإصلاح</button></div>
+</div>
+<label class="f-label" style="margin-top:0.7rem">أمرك (بالعربية أو الإنجليزية)</label>
+<textarea class="tool-input" id="fxCmd" placeholder="مثال: غيّر اللون الأساسي للموقع إلى الأخضر — أو: أضف زر مشاركة في الشات — أو: ضخّم خط العناوين" style="min-height:70px"></textarea>
+<div class="py-status" id="fxStatus"></div>
+<div class="preset-row" style="margin-top:0.4rem">
+<button class="tool-btn green" id="fxCommitBtn" style="display:none"><i class="fa-solid fa-rocket me-1"></i>تأكيد النشر إلى المستودع</button>
+</div>
+</div>
+<div class="tool-card-box">
+<label class="f-label">معاينة الملف بعد الإصلاح (تظهر قبل النشر — راجعها ثم أكّد)</label>
+<pre style="max-height:360px"><code id="fxPreview"></code></pre>
+</div>
+<div class="foot-note">🔒 هذا المحرك لك وحدك: يعمل بمفتاح GitHub الخاص بك على مستودعك فقط، ولا يخزن المفتاح إلا في متصفحك. للإصلاحات المعقدة فعّل مفتاح Groq من «المحركات ⚙» ليكون الموديل أقوى وأدق.</div>
+</div>
+</section>
+
 <script src="js/tools_pro.js"></script>
+<script src="js/tools_fix.js"></script>
 <script>
 'use strict';
 marked.setOptions({breaks:true,mangle:false,headerIds:false});
@@ -575,7 +604,7 @@ $('homeBtn').addEventListener('click',()=>showView('home'));
 $('settingsBtn').addEventListener('click',()=>showView('settings'));
 $$('button[data-home]').forEach(b=>b.addEventListener('click',()=>showView('home')));
 /* init everything */
-['initChatUI','chatRenderSessions','chatRenderMessages','chatUpdateCount','updateEngineTag','initImageUI','initTranslateUI','initSummarizerUI','initSearchUI','initPrayerUI','initHijriUI','initWeatherUI','initCryptoUI','initPythonUI','initPlaygroundUI','initDictationUI','initTTSUI','initQRUI','initPasswordUI','initRegexUI','initJSONUI','initSettingsUI','initDeepSearchUI','initAppBuilderUI','initJobsUI'].forEach(fn=>{try{window[fn]()}catch(e){console.error(fn,e)}});
+['initChatUI','chatRenderSessions','chatRenderMessages','chatUpdateCount','updateEngineTag','initImageUI','initTranslateUI','initSummarizerUI','initSearchUI','initPrayerUI','initHijriUI','initWeatherUI','initCryptoUI','initPythonUI','initPlaygroundUI','initDictationUI','initTTSUI','initQRUI','initPasswordUI','initRegexUI','initJSONUI','initSettingsUI','initDeepSearchUI','initAppBuilderUI','initJobsUI','initFixUI'].forEach(fn=>{try{window[fn]()}catch(e){console.error(fn,e)}});
 showView('home');
 checkConnection();setInterval(checkConnection,5*60*1000);
 </script>
