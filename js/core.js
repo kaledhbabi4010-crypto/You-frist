@@ -1,14 +1,28 @@
 'use strict';
-/* KHALED AI SUITE — core.js: navigation, storage, AI engine (auto-retry), speech, markdown */
-const AI_ENDPOINT='https://text.pollinations.ai/openai';
-const AI_MODEL='openai';
+/* KHALED AI SUITE — core.js v2: عشرة محركات ذكاء، تنقل، تخزين، كلام، MarkDown */
 const MAX_INPUT_CHARS=4000;
-const SYSTEM_PROMPT='أنت "KHALED AI"، مساعد ذكي عربي محترف ودقيق من منصة عربية مجانية. قواعدك: 1) أجب بالعربية الفصحى الواضحة إلا إذا طلب المستخدم لغة أخرى أو كتب بالإنجليزية. 2) كن دقيقًا وصادقًا: إذا لم تكن متأكدًا فقل ذلك صراحة بدل التخمين، ولا تدّعي أبدًا دقة 100%. 3) استخدم Markdown عند الحاجة. 4) في الأكواد اذكر اسم اللغة واكتب كودًا صحيحًا قابلًا للتشغيل. 5) كن عمليًا ومختصرًا بدون حشو.';
+const SYSTEM_PROMPT='أنت "KHALED AI"، مساعد ذكي عربي محترف ودقيق من منصة عربية مجانية. قواعدك: 1) أجب بالعربية الفصحى الواضحة إلا إذا طلب المستخدم لغة أخرى. 2) كن دقيقًا وصادقًا: إذا لم تكن متأكدًا فقل ذلك صراحة بدل التخمين. 3) استخدم Markdown عند الحاجة. 4) في الأكواد اذكر اسم اللغة واكتب كودًا صحيحًا قابلًا للتشغيل. 5) كن عمليًا ومختصرًا بدون حشو.';
+
+/* ============ عشرة محركات ذكاء ============ */
+const ENGINES={
+pollinations:{name:'Pollinations — مجاني بدون مفتاح',keyless:true,url:'https://text.pollinations.ai/openai',models:['openai'],hint:'يعمل فورًا بدون أي مفتاح. حد الخدمة المجانية: طلب واحد في اللحظة لكل مستخدم، والمنصة تعيد المحاولة تلقائيًا عند الانشغال.'},
+groq:{name:'Groq — أسرع محرك في العالم',url:'https://api.groq.com/openai/v1/chat/completions',models:['llama-3.3-70b-versatile','openai/gpt-oss-120b','qwen/qwen3-32b','deepseek-r1-distill-llama-70b','gemma2-9b-it'],hint:'مفتاح مجاني 100% من: console.groq.com/keys — سرعة خرافية وحدود يومية سخية.'},
+gemini:{name:'Google Gemini',url:'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',models:['gemini-2.0-flash','gemini-2.5-flash','gemini-2.5-pro'],hint:'مفتاح مجاني 100% من: aistudio.google.com/apikey — من جوجل مباشرة وبحدود يومية ممتازة.'},
+openrouter:{name:'OpenRouter — عشرات النماذج المجانية',url:'https://openrouter.ai/api/v1/chat/completions',models:['deepseek/deepseek-chat-v3.1:free','qwen/qwen3-235b-a22b:free','meta-llama/llama-3.3-70b-instruct:free','google/gemini-2.0-flash-exp:free','mistralai/mistral-small-3.1-24b-instruct:free'],hint:'مفتاح من: openrouter.ai/settings/keys ثم اختر أي موديل ينتهي بـ ":free" — يعمل مجانًا.'},
+deepseek:{name:'DeepSeek — ذكاء عميق',url:'https://api.deepseek.com/v1/chat/completions',models:['deepseek-chat','deepseek-reasoner'],hint:'مفتاح من: platform.deepseek.com — أسعار زهيدة جدًا وذكاء قوي.'},
+qwen:{name:'Qwen — من علي بابا',url:'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions',models:['qwen-plus','qwen-max','qwen-turbo'],hint:'مفتاح من: dashscope.console.aliyun.com — باقة مجانية للتجربة.'},
+mistral:{name:'Mistral — أوروبي',url:'https://api.mistral.ai/v1/chat/completions',models:['mistral-large-latest','mistral-small-latest'],hint:'مفتاح من: console.mistral.ai — باقة مجانية تجريبية.'},
+together:{name:'Together AI — نماذج مفتوحة',url:'https://api.together.xyz/v1/chat/completions',models:['meta-llama/Llama-3.3-70B-Instruct-Turbo','Qwen/Qwen2.5-72B-Instruct-Turbo','deepseek-ai/DeepSeek-V3'],hint:'مفتاح من: api.together.ai — يجمع أفضل النماذج المفتوحة.'},
+cohere:{name:'Cohere',url:'https://api.cohere.ai/compatibility/v1/chat/completions',models:['command-r-plus','command-r'],hint:'مفتاح من: dashboard.cohere.com — مفتاح تجريبي مجاني.'},
+custom:{name:'مخصص — أي خدمة متوافقة مع OpenAI',url:'',models:[],hint:'أدخل رابط أي خدمة متوافقة مع OpenAI (ينتهي بـ /chat/completions) مع مفتاحك واسم الموديل.'}};
+
+function getEngineState(){const st=lsGet('khaled_engine_v1',{id:'pollinations',key:'',model:'',url:''});if(!ENGINES[st.id])st.id='pollinations';return st}
+function setEngineState(st){lsSet('khaled_engine_v1',st)}
+function engineLabel(){const st=getEngineState();const cfg=ENGINES[st.id];const model=st.model||(cfg.models&&cfg.models[0])||'';return cfg.name.split('—')[0].trim()+(model?' • '+model:'')}
+function updateEngineTag(){const el=document.getElementById('engineTag');if(el)el.textContent='⚙ المحرك: '+engineLabel()}
 
 const $=id=>document.getElementById(id);
 const $$=sel=>document.querySelectorAll(sel);
-
-/* ---------- storage ---------- */
 function lsGet(k,f){try{const v=JSON.parse(localStorage.getItem(k));return v===null?f:v}catch{return f}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
 function escapeHtmlText(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
@@ -19,41 +33,23 @@ function toast(msg){const t=document.createElement('div');t.className='toast';t.
 async function copyText(txt){try{await navigator.clipboard.writeText(txt);toast('تم النسخ ✓')}catch{toast('تعذر النسخ — انسخ يدويًا')}}
 
 /* ---------- navigation ---------- */
-const VIEW_IDS=['home','chat','images','python','playground','search','translate','summarizer','weather','crypto','prayer','hijri','dictation','tts','qr','password','regex','json'];
+const VIEW_IDS=['home','chat','images','python','playground','search','translate','summarizer','weather','crypto','prayer','hijri','dictation','tts','qr','password','regex','json','deepsearch','appbuilder','jobs','settings'];
 function showView(v){
   if(!VIEW_IDS.includes(v))v='home';
   $$('.app-view').forEach(s=>s.classList.toggle('active',s.id==='view-'+v));
-  const isChat=v==='chat';
-  const chatLayout=$('chatLayoutWrap');
-  if(chatLayout)chatLayout.style.display=isChat?'block':'none';
   window.scrollTo({top:0});
 }
 
-/* ---------- AI engine: honest + auto-retry queue ---------- */
+/* ---------- AI dispatch: any engine, OpenAI-compatible ---------- */
 class AIError extends Error{constructor(status,message){super(message);this.status=status}}
 function isErrorLike(text){const t=text.slice(0,300).toLowerCase();return t.includes('reached its budget')||t.includes('api key used for this request')||t.includes('budget limit')}
 function friendlyError(err){
   if(err.name==='AbortError')return 'تم إيقاف الرد.';
-  if(err.status===429)return 'الخدمة مشغولة حاليًا — الخدمة المجانية تسمح بطلب واحد في اللحظة لكل مستخدم.';
+  if(err.status===401||err.status===403)return 'المفتاح غير صحيح أو منتهي — راجع إعدادات المحركات.';
+  if(err.status===429)return 'الخدمة مشغولة حاليًا (حد الطلبات المجانية).';
   if(err.status===503||err.status===502)return 'الخادم غير متاح مؤقتًا.';
-  if(String(err.message).includes('Failed to fetch')||String(err.message).includes('NetworkError'))return 'تعذر الاتصال — تحقق من اتصالك بالإنترنت.';
+  if(String(err.message).includes('Failed to fetch')||String(err.message).includes('NetworkError'))return 'تعذر الاتصال — تحقق من اتصالك بالإنترنت أو من مفتاح المحرك.';
   return err.message||'حدث خطأ غير متوقع.';
-}
-/* Single call — no auto retry (caller controls retries via callAI) */
-async function aiCall(messages,signal,onChunk){
-  const body=JSON.stringify({model:AI_MODEL,messages,stream:!!onChunk});
-  const resp=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body,signal});
-  if(resp.ok){
-    if(onChunk)return streamResponse(resp,onChunk);
-    const data=await resp.json().catch(()=>null);
-    const text=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
-    if(!text||!text.trim())throw new AIError(0,'وصل رد فارغ من المحرك.');
-    if(isErrorLike(text))throw new AIError(429,'حصة الاستخدام المؤقتة مشغولة.');
-    return text.trim();
-  }
-  let errMsg='HTTP '+resp.status;
-  try{const j=await resp.json();if(j.error)errMsg=typeof j.error==='string'?j.error:(j.error.message||errMsg)}catch{}
-  throw new AIError(resp.status,errMsg);
 }
 async function streamResponse(resp,onChunk){
   const reader=resp.body.getReader();const decoder=new TextDecoder('utf-8');
@@ -68,53 +64,75 @@ async function streamResponse(resp,onChunk){
   if(isErrorLike(full))throw new AIError(429,'حصة الاستخدام المؤقتة مشغولة.');
   return full.trim();
 }
-/* Auto-retry engine: shows countdown inside onStatus, tries up to N times with growing waits */
-const RETRY_DELAYS=[4000,8000,14000,22000,30000,45000];
-async function callAI(messages,opts={}){
-  const signal=opts.signal||null;const onChunk=opts.onChunk||null;const onStatus=opts.onStatus||null;
+async function aiCallOnce(messages,signal,onChunk,forcedEngine){
+  const st=forcedEngine||getEngineState();const cfg=ENGINES[st.id];
+  const url=st.id==='custom'?st.url:cfg.url;
+  if(!url)throw new AIError(0,'أدخل رابط المحرك المخصص في الإعدادات أولًا.');
+  const headers={'Content-Type':'application/json'};
+  if(!cfg.keyless){if(!st.key)throw new AIError(401,'هذا المحرك يحتاج مفتاح API — أضفه من إعدادات المحركات (⚙).');headers.Authorization='Bearer '+st.key}
+  const model=st.model||cfg.models[0]||'openai';
+  const resp=await fetch(url,{method:'POST',headers,body:JSON.stringify({model,messages,stream:!!onChunk}),signal});
+  if(resp.ok){
+    if(onChunk)return streamResponse(resp,onChunk);
+    const data=await resp.json().catch(()=>null);
+    const text=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+    if(!text||!text.trim())throw new AIError(0,'وصل رد فارغ من المحرك.');
+    if(isErrorLike(text))throw new AIError(429,'حصة الاستخدام المؤقتة مشغولة.');
+    return text.trim();
+  }
+  let errMsg='HTTP '+resp.status;
+  try{const j=await resp.json();const e=j.error;errMsg=(typeof e==='string'?e:(e&&e.message)||errMsg)}catch{}
+  throw new AIError(resp.status,errMsg);
+}
+const RETRY_DELAYS=[4000,8000,14000,22000,30000];
+async function callWithRetries(messages,opts,engine){
+  const signal=opts.signal||null,onChunk=opts.onChunk||null,onStatus=opts.onStatus||null;
   const maxAttempts=opts.maxAttempts!==undefined?opts.maxAttempts:5;
-  const withSystem=Array.isArray(messages)&&messages[0]&&messages[0].role==='system'?messages:[{role:'system',content:SYSTEM_PROMPT},...messages];
+  const withSystem=messages[0]&&messages[0].role==='system'?messages:[{role:'system',content:SYSTEM_PROMPT},...messages];
   let lastErr=null;
   for(let attempt=1;attempt<=maxAttempts;attempt++){
-    try{
-      const text=await aiCall(withSystem,signal,onChunk);
-      if(onStatus)onStatus(null);
-      return text;
-    }catch(err){
+    try{const text=await aiCallOnce(withSystem,signal,onChunk,engine);if(onStatus)onStatus(null);return text}
+    catch(err){
       lastErr=err;
       if(err.name==='AbortError')throw err;
       const retryable=err.status===429||err.status===502||err.status===503||err.status===504||err.status===0;
       if(!retryable||attempt>=maxAttempts)break;
       const delay=RETRY_DELAYS[Math.min(attempt-1,RETRY_DELAYS.length-1)];
       if(onStatus){
-        await new Promise(resolve=>{
-          let left=delay/1000;
-          onStatus('الخدمة مشغولة (طلب واحد لكل مستخدم في اللحظة) — إعادة تلقائية بعد '+left+' ث… (محاولة '+attempt+'/'+maxAttempts+')');
-          const timer=setInterval(()=>{left--;if(left<=0){clearInterval(timer);onStatus('إعادة المحاولة الآن…');resolve()}else{onStatus('الخدمة مشغولة — إعادة تلقائية بعد '+left+' ث… (محاولة '+attempt+'/'+maxAttempts+')')}},1000);
-          if(signal)signal.addEventListener('abort',()=>{clearInterval(timer);resolve()});
-        });
-      }else{
-        await new Promise(r=>setTimeout(r,delay));
-      }
+        await new Promise(resolve=>{let left=delay/1000;
+          onStatus('الخدمة مشغولة — إعادة تلقائية بعد '+left+' ث… (محاولة '+attempt+'/'+maxAttempts+')');
+          const timer=setInterval(()=>{left--;if(left<=0){clearInterval(timer);onStatus('إعادة المحاولة الآن…');resolve()}else onStatus('الخدمة مشغولة — إعادة تلقائية بعد '+left+' ث… (محاولة '+attempt+'/'+maxAttempts+')')},1000);
+          if(signal)signal.addEventListener('abort',()=>{clearInterval(timer);resolve()})});
+      }else await new Promise(r=>setTimeout(r,delay));
       if(signal&&signal.aborted)throw new DOMException('aborted','AbortError');
     }
   }
   throw lastErr;
 }
+async function callAI(messages,opts={}){
+  const st=getEngineState();
+  if(st.id!=='pollinations'){
+    try{return await callWithRetries(messages,opts,st)}
+    catch(err){
+      if(err.name==='AbortError')throw err;
+      if(opts.onStatus)opts.onStatus('تعذر محرك '+engineLabel()+' — التحول التلقائي إلى المحرك المجاني…');
+      return await callWithRetries(messages,opts,{id:'pollinations',key:'',model:'openai'});
+    }
+  }
+  return await callWithRetries(messages,opts,st);
+}
 
-/* ---------- speech: TTS + STT ---------- */
+/* ---------- speech ---------- */
 function speakText(text,voiceURI,rate){
   try{
     if(!('speechSynthesis' in window))return false;
     speechSynthesis.cancel();
     const clean=String(text).replace(/```[\s\S]*?```/g,' مقطع كود ').replace(/[#*`_>|]/g,'').replace(/\[(.*?)\]\(.*?\)/g,'$1').slice(0,3000);
-    const u=new SpeechSynthesisUtterance(clean);
-    u.lang='ar-SA';u.rate=rate||1;
+    const u=new SpeechSynthesisUtterance(clean);u.lang='ar-SA';u.rate=rate||1;
     const voices=speechSynthesis.getVoices();
     if(voiceURI){const v=voices.find(v=>v.voiceURI===voiceURI);if(v){u.voice=v;u.lang=v.lang}}
     else{const v=voices.find(v=>v.lang&&v.lang.startsWith('ar'));if(v)u.voice=v}
-    speechSynthesis.speak(u);
-    return true;
+    speechSynthesis.speak(u);return true;
   }catch{return false}
 }
 function stopSpeaking(){try{speechSynthesis.cancel()}catch{}}
@@ -125,16 +143,17 @@ function createRecognizer(lang){
   return rec;
 }
 
-/* ---------- connection checker ---------- */
-let connTimer=null;
+/* ---------- connection checker (engine-aware) ---------- */
 async function checkConnection(){
-  const ind=$('connIndicator'),txt=$('connText');
-  if(!ind)return;
+  const ind=$('connIndicator'),txt=$('connText');if(!ind)return;
   try{
     const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),10000);
-    const resp=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:AI_MODEL,messages:[{role:'user',content:'ping'}],max_tokens:1}),signal:ctrl.signal});
+    const resp=await aiCallOnce([{role:'user',content:'ping'}],ctrl.signal,null);
     clearTimeout(t);
-    if(resp.ok||resp.status===429){ind.className='conn-indicator conn-ok';txt.textContent='المحرك يعمل'}
-    else throw new Error();
-  }catch{ind.className='conn-indicator conn-bad';txt.textContent='تعذر الوصول للمحرك'}
+    ind.className='conn-indicator conn-ok';txt.textContent='المحرك يعمل';
+  }catch(err){
+    if(err.status===429){ind.className='conn-indicator conn-ok';txt.textContent='المحرك متصل (مشغول)'}
+    else if(err.status===401||err.status===403){ind.className='conn-indicator conn-bad';txt.textContent='المفتاح غير صالح'}
+    else{ind.className='conn-indicator conn-bad';txt.textContent='تعذر الوصول للمحرك'}
+  }
 }
