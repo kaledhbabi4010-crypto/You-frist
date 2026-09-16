@@ -33,7 +33,7 @@ function toast(msg){const t=document.createElement('div');t.className='toast';t.
 async function copyText(txt){try{await navigator.clipboard.writeText(txt);toast('تم النسخ ✓')}catch{toast('تعذر النسخ — انسخ يدويًا')}}
 
 /* ---------- navigation ---------- */
-const VIEW_IDS=['home','chat','images','python','playground','search','translate','summarizer','weather','crypto','prayer','hijri','dictation','tts','qr','password','regex','json','deepsearch','appbuilder','jobs','settings'];
+const VIEW_IDS=['home','chat','images','python','playground','search','translate','summarizer','weather','crypto','prayer','hijri','dictation','tts','qr','password','regex','json','deepsearch','appbuilder','jobs','settings','fixit'];
 function showView(v){
   if(!VIEW_IDS.includes(v))v='home';
   $$('.app-view').forEach(s=>s.classList.toggle('active',s.id==='view-'+v));
