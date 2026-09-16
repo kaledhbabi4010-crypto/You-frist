@@ -1,8 +1,8 @@
 'use strict';
-/* KHALED AI â€” tools_fix.js (v3): ØªØ´Ø®ÙŠØµ Ø¬Ø°Ø±ÙŠ Ù…ØªØ¹Ø¯Ø¯ Ø§Ù„Ù…Ù„ÙØ§Øª
-   Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… ÙŠØµÙ "Ø§Ù„Ù…Ø´ÙƒÙ„Ø©" ÙÙ‚Ø·ØŒ ÙˆØ§Ù„Ù…Ø­Ø±Ùƒ ÙŠØ­Ø¯Ø¯ Ø¨Ù†ÙØ³Ù‡ Ø£ÙŠ Ø§Ù„Ù…Ù„ÙØ§Øª ØªØ­ØªØ§Ø¬ Ù‚Ø±Ø§Ø¡Ø© ÙˆØªØ¹Ø¯ÙŠÙ„. */
+/* KHALED AI â€” tools_fix.js (v3): ØªØ´Ø®ÙŠØµ Ø¬Ø°Ø±ÙŠ Ù…ØªØ¹Ø¯Ø¯ Ø§Ù„Ù…Ù„ÙØ§Øª
+   Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… ÙŠØµÙ Ù "Ø§Ù„Ù…Ø´ÙƒÙ„Ø©" ÙÙ‚Ø·ØŒ ÙˆØ§Ù„Ù…Ø­Ø±Ùƒ ÙŠØ­Ø¯Ø¯ Ø¨Ù†ÙØ³Ù‡ Ø£ÙŠ Ø§Ù„Ù…Ù„ÙØ§Øª ØªØ­ØªØ§Ø¬ Ù‚Ø±Ø§Ø¡Ø© ÙˆØªØ¹Ø¯ÙŠÙ„. */
 const FX_REPO='kaledhbabi4010-crypto/Dad';
-const FX_FILES=['index.html','css/app.css','js/core.js','js/tools_ai.js','js/tools_knowledge.js','js/tools_util.js','js/tools_pro.js','js/tools_fix.js','llm_provider_config.json'];
+const FX_FILES=['index.html','css/app.css','js/core.js','js/tools_ai.js','js/tools_knowledge.js','js/tools_util.js','js/tools_pro.js','js/tools_fix.js'];
 let fxBatch=[];
 
 function fxTok(){return (lsGet('khaled_gh_token','')||'').trim()}
