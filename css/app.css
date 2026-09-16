@@ -227,3 +227,15 @@ input[type=range]{flex:1;accent-color:var(--accent-blue)}
 #view-chat.active{display:flex;flex-direction:column;padding:0;max-width:none}
 #view-chat{padding:0;max-width:none}
 @media(max-width:768px){#view-chat .back-row{padding:0.5rem 0.8rem 0}.chat-layout{height:calc(100vh - 180px)}}
+
+/* ===== PRO TOOLS ===== */
+.jtab-btn{background:rgba(255,255,255,0.06);border:1px solid var(--card-border);color:var(--text-muted);border-radius:10px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'Cairo',sans-serif;transition:all .2s}
+.jtab-btn.active{background:rgba(56,189,248,0.15);color:var(--accent-blue);border-color:var(--accent-blue)}
+.jtab-pane{display:none}
+.jtab-pane.show{display:block;animation:viewIn .25s}
+.ds-lang-head{font-weight:700;font-size:0.85rem;color:var(--accent-blue);margin:0.8rem 0 0.5rem}
+.src-num.en{background:rgba(192,132,252,0.15);color:var(--accent-purple)}
+.set-row{margin-bottom:0.9rem}
+.set-hint{background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:10px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--text-muted);line-height:1.7;margin-top:0.4rem}
+.engine-tag{font-size:0.72rem;color:var(--accent-blue);font-weight:600}
+#abPreview{width:100%;min-height:380px;background:#fff;border:1px solid var(--card-border);border-radius:12px;margin-bottom:0.8rem}
